@@ -13,12 +13,10 @@ const Header = () => {
     <header className="bg-indigo-100 dark:bg-indigo-950 px-8 py-8 border-b border-indigo-200 dark:border-indigo-800 transition-colors">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-center gap-4">
-          {/* Menu Icon with cursor-pointer and hover effect */}
           <button className="text-2xl text-indigo-950 dark:text-indigo-50 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors cursor-pointer">
             <IoMenuSharp />
           </button>
 
-          {/* Text Content */}
           <div>
             <h1 className="font-serif text-2xl font-bold text-indigo-950 dark:text-indigo-50">
               Student Management System

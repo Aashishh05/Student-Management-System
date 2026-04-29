@@ -1,14 +1,16 @@
-import React from 'react'
-import Header from './Header'
-import { Outlet } from 'react-router-dom'
+import React from "react";
+import Header from "./Header";
+import { Outlet } from "react-router-dom";
+import Sidebar from "./Sidebar";
 
 const MainLayout = () => {
   return (
     <div>
-        <Header/>
-        <Outlet/>
+      <Header />
+      <Sidebar />
+      <Outlet />
     </div>
-  )
-}
+  );
+};
 
-export default MainLayout
+export default MainLayout;
