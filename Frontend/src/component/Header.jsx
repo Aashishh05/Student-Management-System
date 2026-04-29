@@ -6,64 +6,66 @@ import { IoMenuSharp } from "react-icons/io5";
 const Header = () => {
   const [dropdown, setDropdown] = useState(false);
 
-  const ToggleDropdown = () => {
-    setDropdown(!dropdown);
-  };
   return (
-    <header className="bg-indigo-100 dark:bg-indigo-950 px-8 py-8 border-b border-indigo-200 dark:border-indigo-800 transition-colors">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <header className="sticky w-full px-8 py-6 bg-gradient-to-r from-slate-400/50 to-white/50 backdrop-blur-xl border-b border-white/50 shadow-sm transition-colors font-serif">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Left Section: Menu + Title */}
         <div className="flex items-center gap-4">
-          <button className="text-2xl text-indigo-950 dark:text-indigo-50 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors cursor-pointer">
+          <button className="text-2xl text-slate-700 hover:text-indigo-600 transition-colors">
             <IoMenuSharp />
           </button>
-
           <div>
-            <h1 className="font-serif text-2xl font-bold text-indigo-950 dark:text-indigo-50">
+            <h1 className="font-semibold text-2xl bg-gradient-to-r from-slate-800 to-blue-600 bg-clip-text text-transparent ">
               Student Management System
             </h1>
-            <p className="text-indigo-700 dark:text-indigo-300">
-              Manage students, teachers, and courses efficiently in one
-              centralized dashboard.
+            <p className="text-slate-500 text-sm font-medium">
+              Centralized Admin Dashboard
             </p>
           </div>
         </div>
 
-        <nav className="flex gap-6">
+        {/* Navigation Links */}
+        <nav className="flex gap-8">
           <NavLink
             to="/students"
-            className="relative px-1 py-2 text-indigo-900 dark:text-indigo-100 transition-all after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-indigo-600 dark:after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full"
+            className="relative px-2 py-1 text-lg font-bold bg-gradient-to-r from-slate-800 to-blue-600 bg-clip-text text-transparent  after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-indigo-600 after:transition-all hover:after:w-full"
           >
             Students
           </NavLink>
+
           <NavLink
             to="/teachers"
-            className="relative px-1 py-2 text-indigo-900 dark:text-indigo-100 transition-all after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-indigo-600 dark:after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full"
+            className="relative px-2 py-1 text-lg font-bold bg-gradient-to-r from-slate-800 to-blue-600 bg-clip-text text-transparent  after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-indigo-600 after:transition-all hover:after:w-full"
           >
             Teachers
           </NavLink>
+
           <NavLink
             to="/courses"
-            className="relative px-1 py-2 text-indigo-900 dark:text-indigo-100 transition-all after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-indigo-600 dark:after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full"
+            className="relative px-2 py-1 text-lg font-bold bg-gradient-to-r from-slate-800 to-blue-600 bg-clip-text text-transparent  after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-indigo-600 after:transition-all hover:after:w-full"
           >
             Courses
           </NavLink>
         </nav>
 
-        <div className="flex items-center text-indigo-900 dark:text-indigo-100 cursor-pointer">
-          <h1>
-            <FaRegCircleUser className="size-8" onClick={ToggleDropdown} />
-          </h1>
-        </div>
-
-        {dropdown && (
-          <div className="absolute right-3 mt-25 w-35 bg-white dark:bg-indigo-900 border border-indigo-200 dark:border-indigo-700 rounded-lg shadow-lg px-6 py-2 ">
-            <ul>
-              <li className=" text-indigo-900 dark:text-indigo-100 cursor-pointer transition-colors hover:text-indigo-300">
-                Logout
-              </li>
-            </ul>
+        {/* User Profile */}
+        <div className="relative">
+          <div
+            onClick={() => setDropdown(!dropdown)}
+            className="w-12 h-12 rounded-full bg-white/60 border border-white/30 flex items-center justify-center cursor-pointer hover:shadow-lg hover:shadow-indigo-500/20 transition-all duration-300"
+          >
+            <FaRegCircleUser className="text-3xl text-indigo-600" />
           </div>
-        )}
+
+          {/* Dropdown */}
+          {dropdown && (
+            <div className="absolute right-0 mt-3 w-40 bg-white/90 backdrop-blur-md border border-white/50 rounded-2xl shadow-xl p-3 animate-in fade-in zoom-in duration-200">
+              <button className="w-full text-left px-4 py-2 text-slate-700 hover:bg-indigo-500 hover:text-indigo-100 rounded-xl transition-all">
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

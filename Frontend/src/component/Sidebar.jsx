@@ -6,7 +6,7 @@ import { IoBookSharp } from "react-icons/io5";
 
 const Sidebar = () => {
   return (
-    <div className="w-64 h-screen bg-gradient-to-b from-slate-400/20 to-white/50 backdrop-blur-xl border-r border-slate-300/50 shadow-2xl shadow-indigo-500/5 p-6 space-y-4 relative overflow-hidden">
+    <div className="w-64 h-screen bg-gradient-to-b from-slate-400/30 to-white/50 backdrop-blur-xl border-r border-slate-300/50 shadow-2xl shadow-indigo-500/5 p-6 space-y-4 relative overflow-hidden">
       {/* Subtle background decoration */}
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/2 to-purple-500/1" />
       <div className="absolute top-20 right-4 w-12 h-12 bg-indigo-400/10 rounded-full blur-xl animate-pulse" />
