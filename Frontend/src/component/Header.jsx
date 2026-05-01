@@ -28,14 +28,14 @@ const Header = ({ toggleSidebar }) => {
 
         <nav className="hidden lg:flex gap-8">
           <NavLink
-            to="/students"
+            to="/Student"
             className="relative px-2 py-1 text-lg font-bold bg-gradient-to-r from-slate-800 to-blue-600 bg-clip-text text-transparent  after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-indigo-600 after:transition-all hover:after:w-full"
           >
             Students
           </NavLink>
 
           <NavLink
-            to="/teachers"
+            to="/Teacher"
             className="relative px-2 py-1 text-lg font-bold bg-gradient-to-r from-slate-800 to-blue-600 bg-clip-text text-transparent  after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-indigo-600 after:transition-all hover:after:w-full"
           >
             Teachers

@@ -4,6 +4,8 @@ import MainLayout from './component/MainLayout'
 import StudentForm from './pages/StudentForm'
 import TeacherForm from './pages/TeacherForm'
 import CoursesForm from './pages/CoursesForm'
+import Dashboard from './pages/Dashboard'
+import Student from './pages/Student'
 
 const App = () => {
   return (
@@ -11,9 +13,12 @@ const App = () => {
 
       <Routes>
         <Route path='/' element={<MainLayout />}/>
+        <Route index element={<Dashboard />} />
         <Route path='/StudentForm' element={<StudentForm />} />
         <Route path='/TeacherForm' element={<TeacherForm />} />
         <Route path='/CoursesForm' element={<CoursesForm />} />
+        <Route path='/Dashboard' element={<Dashboard />} />
+        <Route path='/Student' element={<Student />} />
       </Routes>
     </div>
   )

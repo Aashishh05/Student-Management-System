@@ -8,11 +8,9 @@ const MainLayout = () => {
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-slate-50">
-      {/* Sidebar gets the state */}
       <Sidebar isOpen={isOpen} />
 
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Header gets the toggle function */}
         <Header toggleSidebar={() => setIsOpen(!isOpen)} />
         
         <main className="flex-1 overflow-y-auto">
