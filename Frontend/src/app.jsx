@@ -6,6 +6,7 @@ import TeacherForm from './pages/TeacherForm'
 import CoursesForm from './pages/CoursesForm'
 import Dashboard from './pages/Dashboard'
 import Student from './pages/Student'
+import Teacher from './pages/Teacher'
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path='/CoursesForm' element={<CoursesForm />} />
         <Route path='/Dashboard' element={<Dashboard />} />
         <Route path='/Student' element={<Student />} />
+        <Route path='/Teacher' element={<Teacher />} /> 
       </Routes>
     </div>
   )

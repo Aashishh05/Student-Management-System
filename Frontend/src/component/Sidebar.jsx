@@ -47,7 +47,7 @@ const Sidebar = ({ isOpen }) => {
           </div>
         </div>
 
-        <div className="group relative p-4 bg-white/70 backdrop-blur-sm rounded-2xl border border-white/60 shadow-sm hover:shadow-xl hover:shadow-purple-500/20 hover:border-purple-200/50 hover:bg-gradient-to-r hover:from-purple-50 hover:to-violet-50 transition-all duration-300 cursor-pointer overflow-hidden whitespace-nowrap">
+        <div className="group relative p-4 bg-white/70 backdrop-blur-sm rounded-2xl border border-white/60 shadow-sm hover:shadow-xl hover:shadow-purple-500/20 hover:border-purple-200/50 hover:bg-gradient-to-r hover:from-purple-50 hover:to-violet-50 transition-all duration-300 cursor-pointer overflow-hidden whitespace-nowrap" onClick={() => nav(`/Teacher`)}>
           <div className="absolute inset-0 bg-gradient-to-r from-purple-400/10 to-violet-400/10 opacity-0 group-hover:opacity-100 blur-sm transition-all duration-500 rounded-2xl -z-10" />
           <div className="flex items-center space-x-4">
             <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/30 group-hover:rotate-3 group-hover:scale-105 transition-all duration-300 text-white shrink-0">
