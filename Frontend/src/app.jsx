@@ -7,6 +7,7 @@ import CoursesForm from './pages/CoursesForm'
 import Dashboard from './pages/Dashboard'
 import Student from './pages/Student'
 import Teacher from './pages/Teacher'
+import Courses from './pages/Courses'
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path='/Dashboard' element={<Dashboard />} />
         <Route path='/Student' element={<Student />} />
         <Route path='/Teacher' element={<Teacher />} /> 
+        <Route path='/Courses' element={<Courses />} />
       </Routes>
     </div>
   )

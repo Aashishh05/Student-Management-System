@@ -42,7 +42,7 @@ const Header = ({ toggleSidebar }) => {
           </NavLink>
 
           <NavLink
-            to="/courses"
+            to="/Courses"
             className="relative px-2 py-1 text-lg font-bold bg-gradient-to-r from-slate-800 to-blue-600 bg-clip-text text-transparent  after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-indigo-600 after:transition-all hover:after:w-full"
           >
             Courses
