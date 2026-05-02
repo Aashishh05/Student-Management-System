@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../component/Sidebar";
 import Header from "../component/Header";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 const CoursesForm = () => {
   const [isOpen, setIsOpen] = useState(true);
+
+  const { id } = useParams();
+  const isEditMode = Boolean(id);
+  const nav = useNavigate();
 
   const [formdata, setFormdata] = useState({
     Title: "",
@@ -13,15 +19,81 @@ const CoursesForm = () => {
     Status: "",
   });
 
+  const ResetForm = () => {
+    setFormdata({
+      Title: "",
+      Description: "",
+      Duration: "",
+      Basefee: "",
+      Status: "",
+    });
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormdata((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const [loadingData, setLoadingData] = useState(false);
+  useEffect(() => {
+    if (!isEditMode) return;
+    const fetchCourse = async () => {
+      try {
+        setLoadingData(true);
+        const course_res = await axios.get(
+          `http://localhost:5000/api/courses/getCourse/${id}`,
+        );
+        setFormdata(course_res.data);
+      } catch (error) {
+        console.log("Error fetching course");
+        alert("Failed to load course");
+      }finally{
+        setLoadingData(false);
+      }
+    };
+    fetchCourse();
+  }, [id, isEditMode]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formdata);
+
+    try {
+      if (isEditMode) {
+        const res = await axios.put(
+          `http://localhost:5000/api/courses/update/${id}`,
+          formdata,
+        );
+        if (res.status === 200) {
+          alert("Course updated successfully!");
+          nav("/Courses");
+        } else {
+          alert("Failed to update course");
+        }
+      } else {
+        const res = await axios.post(
+          `http://localhost:5000/api/courses/createCourse`,
+          formdata,
+        );
+        if (res.data.success) {
+          alert("Course added successfully!");
+          ResetForm();
+          nav("/Courses");
+        } else {
+          alert("Failed to add course");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Something went wrong");
+    }
   };
+
+  if (loadingData)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
 
   return (
     <div className="flex min-h-screen bg-slate-300 overflow-x-hidden">
@@ -151,15 +223,7 @@ const CoursesForm = () => {
                 <button
                   type="button"
                   className="px-4 py-2 rounded-lg border text-gray-600 hover:bg-gray-200 shadow-sm"
-                  onClick={() =>
-                    setFormdata({
-                      Title: "",
-                      Description: "",
-                      Duration: "",
-                      Basefee: "",
-                      Status: "",
-                    })
-                  }
+                  onClick={ResetForm}
                 >
                   Reset
                 </button>
@@ -168,7 +232,7 @@ const CoursesForm = () => {
                   type="submit"
                   className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 shadow-md"
                 >
-                  Submit
+                  {isEditMode ? "Update" : "Submit"}
                 </button>
               </div>
             </form>

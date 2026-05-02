@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdPersonAddAlt1 } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../component/Sidebar";
@@ -6,11 +6,56 @@ import Header from "../component/Header";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoBookSharp } from "react-icons/io5";
+import axios from "axios";
 
 const Courses = () => {
-  const [isOpen, setIsOpen] = useState(true);
   const nav = useNavigate();
+  const [isOpen, setIsOpen] = useState(true);
 
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchCourse = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        `http://localhost:5000/api/courses/getCourse`,
+      );
+      setCourses(res.data.Courses);
+      setLoading(false);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const confirm = window.confirm("Are you sure want to delete this course?");
+    if (!confirm) return;
+    try {
+      const res = await axios.delete(
+        `http://localhost:5000/api/courses/delete/${id}`,
+      );
+      if (res.status === 200) {
+        alert("Course deleted successfully");
+        setCourses((prev) => prev.filter((c) => c._id !== id));
+      }
+    } catch (error) {
+      console.log("Error deleting course");
+      alert("Something went wrong");
+    }
+  };
+
+  useEffect(() => {
+    fetchCourse();
+  }, []);
+
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
   return (
     <div className="flex min-h-screen bg-slate-300">
       <div
@@ -112,8 +157,8 @@ const Courses = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
                       10000
                     </td>
-                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                         <span className="px-3 py-1 text-[12px] font-bold tracking-wider rounded-full bg-green-200/50 text-green-800 border border-green-200">
+                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                      <span className="px-3 py-1 text-[12px] font-bold tracking-wider rounded-full bg-green-200/50 text-green-800 border border-green-200">
                         Active
                       </span>
                     </td>
@@ -147,7 +192,7 @@ const Courses = () => {
                       10000
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                         <span className="px-3 py-1 text-[12px] font-bold tracking-wider rounded-full bg-red-300/50 text-red-800 border border-red-200">
+                      <span className="px-3 py-1 text-[12px] font-bold tracking-wider rounded-full bg-red-300/50 text-red-800 border border-red-200">
                         Inactive
                       </span>
                     </td>
