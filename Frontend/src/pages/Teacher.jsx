@@ -1,15 +1,64 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdPersonAddAlt1 } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../component/Sidebar";
 import Header from "../component/Header";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaUserTie } from "react-icons/fa";
+import axios from "axios";
 
 const Teacher = () => {
-  const [isOpen, setIsOpen] = useState(true);
   const nav = useNavigate();
+
+  const [isOpen, setIsOpen] = useState(true);
+  const [teachers, setTeachers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchTeacher = async () => {
+    try {
+      setLoading(true);
+
+      const res = await axios.get(
+        `http://localhost:5000/api/teachers/getTeacher`,
+      );
+      setTeachers(res.data.teachers);
+      setLoading(false);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm(
+      "Are you sure want to delete this teacher?",
+    );
+
+    if (!confirmed) return;
+    try {
+      const res = await axios.delete(
+        `http://localhost:5000/api/teachers/delete/${id}`,
+      );
+      if (res.status === 200) {
+        alert("Teacher deleted successfully!");
+        setTeachers((prev) => prev.filter((t) => t._id !== id));
+      }
+    } catch (error) {
+      console.log("Error deleting teacher", error);
+      alert("Something went wrong");
+    }
+  };
+
+  useEffect(() => {
+    fetchTeacher();
+  }, []);
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
 
   return (
     <div className="flex min-h-screen bg-slate-300">

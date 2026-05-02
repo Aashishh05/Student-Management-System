@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../component/Sidebar";
 import Header from "../component/Header";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 const TeacherForm = () => {
   const [isOpen, setIsOpen] = useState(true);
+
+  const { id } = useParams();
+  const isEditMode = Boolean(id);
+  const nav = useNavigate();
 
   const [formdata, setFormdata] = useState({
     first_name: "",
@@ -15,15 +21,98 @@ const TeacherForm = () => {
     courses: "",
   });
 
+  const ResetForm = () => {
+    setFormdata({
+      first_name: "",
+      last_name: "",
+      gender: "",
+      phone: "",
+      email: "",
+      address: "",
+      courses: "",
+    });
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormdata((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const [loadingData, setLoadingData] = useState(false);
+  useEffect(() => {
+    if (!isEditMode) return;
+    const fetchTeacher = async () => {
+      try {
+        setLoadingData(true);
+        const teacher_res = await axios.get(
+          `http://localhost:5000/api/teachers/getTeacher/${id}`,
+        );
+        setFormdata(teacher_res.data.teacher);
+      } catch (error) {
+        console.log("Error fetching teachers", error);
+        alert("Failed to load teacher data");
+      } finally {
+        setLoadingData(false);
+      }
+    };
+    fetchTeacher();
+  }, [id, isEditMode]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formdata);
+
+    if (!formdata.first_name || !formdata.phone) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    if (!formdata.email) {
+      alert("Email required");
+      return;
+    }
+
+    if (!/^\d{10}$/.test(formdata.phone)) {
+      alert("Please enter a valid 10-digit phone number.");
+      return;
+    }
+
+    try {
+      if (isEditMode) {
+        const res = await axios.put(
+          `http://localhost:5000/api/teachers/update/${id}`,
+          formdata,
+        );
+        if (res.status === 200) {
+          alert("Teacher updated successfully");
+          nav(`/Teacher`);
+        } else {
+          alert("Failed to update teacher");
+        }
+      } else {
+        const res = await axios.post(
+          `http://localhost:5000/api/teachers/createTeacher`,
+          formdata,
+        );
+        if (res.data.success) {
+          alert("Teacher added successfully!");
+          ResetForm();
+          nav(`/Teacher`);
+        } else {
+          alert("Failed to add teacher");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Something went wrong");
+    }
   };
+
+  if (loadingData)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
 
   return (
     <div className="flex min-h-screen bg-slate-300 overflow-x-hidden">
@@ -189,17 +278,7 @@ const TeacherForm = () => {
                 <button
                   type="button"
                   className="px-4 py-2 rounded-lg border text-gray-600 hover:bg-gray-200 shadow-sm"
-                  onClick={() =>
-                    setFormdata({
-                      first_name: "",
-                      last_name: "",
-                      gender: "",
-                      phone: "",
-                      email: "",
-                      address: "",
-                      courses: "",
-                    })
-                  }
+                  onClick={ResetForm}
                 >
                   Reset
                 </button>
@@ -208,7 +287,7 @@ const TeacherForm = () => {
                   type="submit"
                   className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 shadow-md"
                 >
-                  Submit
+                  {isEditMode ? "Update" : "Submit"}
                 </button>
               </div>
             </form>
