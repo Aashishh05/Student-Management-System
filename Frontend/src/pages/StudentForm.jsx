@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import Sidebar from "../component/Sidebar";
 import Header from "../component/Header";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { useEffect } from "react";
 
 const StudentForm = () => {
   const [isOpen, setIsOpen] = useState(true);
+
+  const { id } = useParams();
+  const isEditMode = Boolean(id);
+  const nav = useNavigate();
 
   const [formdata, setFormdata] = useState({
     first_name: "",
@@ -17,15 +24,102 @@ const StudentForm = () => {
     payment_status: "",
   });
 
+  const ResetForm = () => {
+    setFormdata({
+      first_name: "",
+      last_name: "",
+      gender: "",
+      phone: "",
+      email: "",
+      address: "",
+      course: "",
+      teacher: "",
+      payment_status: "",
+    });
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormdata((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const [loadingData, setLoadingData] = useState(false);
+
+  useEffect(
+    () => {
+      if (!isEditMode) return;
+      const fetchStudent = async () => {
+        setLoadingData(true);
+        try {
+          const student_res = await axios.get(
+            `http://localhost:5000/api/students/getStudents/${id}`,
+          );
+          setFormdata(student_res.data);
+        } catch (error) {
+          console.log("Error fetching student", error);
+          alert("Failed to load student data");
+        } finally {
+          setLoadingData(false);
+        }
+      };
+      fetchStudent();
+    },
+    [id, isEditMode],
+    
+  );
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formdata);
+    if (!formdata.first_name || !formdata.phone) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    if (!formdata.email) {
+      alert("Email required");
+      return;
+    }
+
+    if (formdata.email && !/\S+@\S+\.\S+/.test(formdata.email)) {
+      alert("Please enter a valid email.");
+      return;
+    }
+
+    if (formdata.phone && !/^\d{10}$/.test(formdata.phone)) {
+      alert("Please enter a valid 10-digit phone number.");
+      return;
+    }
+
+    try {
+      if (isEditMode) {
+        const res = await axios.put(
+          `http://localhost:5000/api/students/update/${id}`,
+          formdata,
+        );
+        if (res.status === 200) {
+          alert("Student updated successfully!");
+        } else {
+          alert("Failed to update student");
+        }
+      } else {
+        const res = await axios.post(
+          `http://localhost:5000/api/students/createStudent`,
+          formdata,
+        );
+        if (res.data.success) {
+          alert("Student added successfully");
+          ResetForm();
+        } else {
+          alert("Failed to add Student");
+        }
+      }
+      nav("/Student");
+    } catch (error) {
+      console.log(error);
+      alert("Something went wrong");
+    }
   };
+
+  if (loadingData) return <div className="flex justify-center items-center h-screen">Loading...</div>;
 
   return (
     <div className="flex min-h-screen bg-slate-300 overflow-x-hidden">
@@ -147,7 +241,7 @@ const StudentForm = () => {
                     placeholder="Enter your email"
                     className="w-full font-serif border border-gray-300 rounded-lg px-3 py-2 shadow-sm 
                     focus:ring-1 focus:ring-blue-500 focus:shadow-md focus:border-blue-500 
-                    outline-none transition duration-200"
+                    outline-none transition duration-200 "
                     onChange={handleChange}
                     value={formdata.email}
                   />
@@ -184,7 +278,7 @@ const StudentForm = () => {
                   required
                   value={formdata.course}
                 >
-                  <option>--Select Course--</option>
+                  <option value="">--Select Course--</option>
                 </select>
               </div>
 
@@ -201,7 +295,7 @@ const StudentForm = () => {
                   value={formdata.teacher}
                   required
                 >
-                  <option>--Select Teacher--</option>
+                  <option value="">--Select Teacher--</option>
                 </select>
               </div>
 
@@ -230,19 +324,7 @@ const StudentForm = () => {
                 <button
                   type="button"
                   className="px-4 py-2 rounded-lg border text-gray-600 hover:bg-gray-200 shadow-sm transition-colors"
-                  onClick={() =>
-                    setFormdata({
-                      first_name: "",
-                      last_name: "",
-                      gender: "",
-                      phone: "",
-                      email: "",
-                      address: "",
-                      course: "",
-                      teacher: "",
-                      payment_status: "",
-                    })
-                  }
+                  onClick={ResetForm}
                 >
                   Reset
                 </button>
@@ -251,7 +333,7 @@ const StudentForm = () => {
                   type="submit"
                   className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 shadow-md transition-colors"
                 >
-                  Submit
+                  {isEditMode ? "Update" : "Submit"}
                 </button>
               </div>
             </form>

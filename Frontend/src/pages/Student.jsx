@@ -6,24 +6,57 @@ import Header from "../component/Header";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import axios from "axios";
+import { useEffect } from "react";
 
 const Student = () => {
-    const nav = useNavigate();
+  const nav = useNavigate();
   const [isOpen, setIsOpen] = useState(true);
   const [students, setStudents] = useState([]);
-  const [loading, setLodaing] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-
   const fetchStudent = async () => {
-    if(students.length > 0) return;
     try {
-      const res = await axios.get("")
+      setLoading(true);
+      const res = await axios.get(
+        `http://localhost:5000/api/students/getStudent`,
+      );
+      setStudents(res.data.students || []);
+      setLoading(false);
     } catch (error) {
-      
+      setError(error.message);
     }
-  }
+  };
 
+  useEffect(() => {
+    fetchStudent();
+  }, []);
+
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this student?",
+    );
+    if (!confirmed) return;
+    try {
+      const res = await axios.delete(
+        `http://localhost:5000/api/students/delete/${id}`,
+      );
+      if (res.status === 200) {
+        alert("Student deleted successfully");
+        setStudents((prev) => prev.filter((s) => s._id !== id));
+      }
+    } catch (error) {
+      console.log("Error deleting student", error);
+      alert("Something went wrong");
+    }
+  };
+
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
 
   return (
     <div className="flex min-h-screen bg-slate-300">
