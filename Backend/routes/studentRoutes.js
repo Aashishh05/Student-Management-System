@@ -6,8 +6,10 @@ const router = express.Router();
 
 router.post("/createStudent",createStudent);
 router.get("/getStudent",getAllStudents);
-router.get("/getstudent/:id",getStudentByID);
+router.get("/getStudent/:id",getStudentByID);
 router.put("/update/:id",updateStudentByID);
 router.delete("/delete/:id",deleteStudentByID);
+
+
 
 export default router;

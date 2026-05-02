@@ -5,10 +5,25 @@ import Sidebar from "../component/Sidebar";
 import Header from "../component/Header";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import axios from "axios";
 
 const Student = () => {
+    const nav = useNavigate();
   const [isOpen, setIsOpen] = useState(true);
-  const nav = useNavigate();
+  const [students, setStudents] = useState([]);
+  const [loading, setLodaing] = useState(false);
+  const [error, setError] = useState(null);
+
+
+  const fetchStudent = async () => {
+    if(students.length > 0) return;
+    try {
+      const res = await axios.get("")
+    } catch (error) {
+      
+    }
+  }
+
 
   return (
     <div className="flex min-h-screen bg-slate-300">
