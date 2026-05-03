@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MdPersonAddAlt1 } from "react-icons/md";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "../component/Sidebar";
 import Header from "../component/Header";
 import { FiEdit } from "react-icons/fi";
@@ -19,7 +19,6 @@ const Teacher = () => {
   const fetchTeacher = async () => {
     try {
       setLoading(true);
-
       const res = await axios.get(
         `http://localhost:5000/api/teachers/getTeacher`,
       );
@@ -27,6 +26,7 @@ const Teacher = () => {
       setLoading(false);
     } catch (error) {
       setError(error.message);
+      setLoading(false);
     }
   };
 
@@ -34,7 +34,6 @@ const Teacher = () => {
     const confirmed = window.confirm(
       "Are you sure want to delete this teacher?",
     );
-
     if (!confirmed) return;
     try {
       const res = await axios.delete(
@@ -53,6 +52,7 @@ const Teacher = () => {
   useEffect(() => {
     fetchTeacher();
   }, []);
+
   if (loading)
     return (
       <div className="flex justify-center items-center h-screen">
@@ -91,7 +91,7 @@ const Teacher = () => {
                   bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl 
                   hover:from-blue-700 hover:to-purple-700 focus:outline-none 
                   transition-all duration-300 transform hover:scale-105 shadow-lg active:scale-95"
-                  onClick={() => nav(`/Form`)}
+                  onClick={() => nav(`/TeacherForm`)}
                 >
                   <MdPersonAddAlt1 className="text-2xl" />
                   <span className="whitespace-nowrap">
@@ -101,128 +101,125 @@ const Teacher = () => {
               </div>
             </div>
 
-            <div className="table-fixed mt-10">
-              <div className="w-full overflow-hidden rounded-t-3xl">
-                <div className="bg-gradient-to-r from-[#142C6E] via-[#4C2BC4] to-[#8E118E] px-8 py-7 flex items-center justify-between font-serif">
-                  <div className="flex items-center gap-4">
-                    <div className="bg-blue-400 p-3 rounded-xl">
-                      <FaUserTie className="text-white text-xl" />
+            <div className="mt-10 w-full overflow-x-auto">
+              <div className="min-w-[900px]">
+                <div className="w-full overflow-hidden rounded-t-3xl">
+                  <div className="bg-gradient-to-r from-[#142C6E] via-[#4C2BC4] to-[#8E118E] px-8 py-7 flex items-center justify-between font-serif">
+                    <div className="flex items-center gap-4">
+                      <div className="bg-blue-400 p-3 rounded-xl">
+                        <FaUserTie className="text-white text-xl" />
+                      </div>
+                      <h1 className="text-3xl bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
+                        Teachers Directory
+                      </h1>
                     </div>
-
-                    <h1 className="text-3xl bg-gradient-to-r from-white to-slate-400  bg-clip-text text-transparent ">
-                      Teachers Directory
-                    </h1>
+                    <h2 className="text-slate-300 text-lg font-medium">
+                      0 Total Records
+                    </h2>
                   </div>
-
-                  <h2 className="text-slate-300 text-lg font-medium">
-                    0 Total Records
-                  </h2>
                 </div>
+
+                <table className="w-full table-fixed">
+                  <thead>
+                    <tr className="bg-gradient-to-r from-slate-200 to-slate-400 border-b border-slate-700">
+                      <th className="w-5 px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        ID
+                      </th>
+                      <th className="px-3 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        Full Name
+                      </th>
+                      <th className="px-3 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        Email
+                      </th>
+                      <th className="w-24 px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        Gender
+                      </th>
+                      <th className="px-3 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        Course
+                      </th>
+                      <th className="px-3 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        Phone
+                      </th>
+                      <th className="px-3 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        Address
+                      </th>
+                      <th className="w-36 px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody className="divide-y divide-slate-200">
+                    <tr className="hover:bg-sky-100/50 transition-all duration-300">
+                      <td className="px-4 py-4 text-center text-sm font-bold text-slate-900">
+                        1
+                      </td>
+                      <td className="px-3 py-4 text-center text-sm font-medium text-gray-800">
+                        Arjun Thapa
+                      </td>
+                      <td className="px-3 py-4 text-center text-sm text-gray-600 break-all">
+                        arjun.thapa@email.com
+                      </td>
+                      <td className="px-3 py-4 text-center text-sm text-gray-600">
+                        Male
+                      </td>
+                      <td className="px-3 py-4 text-center text-sm text-gray-600">
+                        Computer Science
+                      </td>
+                      <td className="px-3 py-4 text-center text-sm text-gray-600">
+                        9841000003
+                      </td>
+                      <td className="px-3 py-4 text-center text-sm text-gray-600">
+                        Kathmandu, Nepal
+                      </td>
+                      <td className="px-3 py-4 text-center text-sm font-medium">
+                        <div className="flex items-center justify-center gap-2">
+                          <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105">
+                            <FiEdit /> <span>Edit</span>
+                          </button>
+                          <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105">
+                            <RiDeleteBin6Line /> <span>Delete</span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr className="hover:bg-sky-100/50 transition-all duration-300">
+                      <td className="px-4 py-4 text-center text-sm font-bold text-slate-900">
+                        2
+                      </td>
+                      <td className="px-4 py-4 text-center text-sm font-medium text-gray-800">
+                        Sita Sharma
+                      </td>
+                      <td className="px-4 py-4 text-center text-sm text-gray-600 break-all">
+                        sita.sharma@email.com
+                      </td>
+                      <td className="px-4 py-4 text-center text-sm text-gray-600">
+                        Female
+                      </td>
+                      <td className="px-4 py-4 text-center text-sm text-gray-600">
+                        Business Admin
+                      </td>
+                      <td className="px-4 py-4 text-center text-sm text-gray-600">
+                        9801000000
+                      </td>
+                      <td className="px-4 py-4 text-center text-sm text-gray-600">
+                        Lalitpur, Nepal
+                      </td>
+                      <td className="px-4 py-4 text-center text-sm font-medium">
+                        <div className="flex items-center justify-center gap-2">
+                          <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105">
+                            <FiEdit /> <span>Edit</span>
+                          </button>
+                          <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105">
+                            <RiDeleteBin6Line /> <span>Delete</span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <table className="min-w-full">
-                <thead>
-                  <tr className="bg-gradient-to-r from-slate-200 to-slate-400 border-b border-slate-700 ">
-                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      ID
-                    </th>
-                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Full Name
-                    </th>
-                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Email
-                    </th>
-                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Gender
-                    </th>
-                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Course
-                    </th>
-
-                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Phone
-                    </th>
-                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Address
-                    </th>
-
-                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody className="divide-y divide-slate-200">
-                  <tr className="hover:bg-sky-100/50 transition-all duration-300 ">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-slate-900">
-                      1
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                      Arjun Thapa
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      arjun.thapa@email.com
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      Male
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      Computer Science
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      9841000000
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      Kathmandu, Nepal
-                    </td>
-
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex items-center gap-3">
-                        <button className="flex gap-2  items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105 ">
-                          <FiEdit className="" /> <span>Edit</span>
-                        </button>
-                        <button className="flex gap-2 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105 ">
-                          <RiDeleteBin6Line /> <span>Delete</span>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr className="hover:bg-sky-100/50 transition-all duration-300">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-slate-900">
-                      2
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                      Sita Sharma
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      sita.sharma@email.com
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      Female
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      Business Admin
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      9801000000
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      Lalitpur, Nepal
-                    </td>
-
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex items-center gap-3">
-                        <button className="flex gap-2 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105">
-                          <FiEdit /> <span>Edit</span>
-                        </button>
-                        <button className="flex gap-2 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105">
-                          <RiDeleteBin6Line /> <span>Delete</span>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
         </main>

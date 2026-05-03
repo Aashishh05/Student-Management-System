@@ -18,13 +18,12 @@ const Student = () => {
   const fetchStudent = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `http://localhost:5000/api/students/getStudent`,
-      );
+      const res = await axios.get(`http://localhost:5000/api/students/getStudent`);
       setStudents(res.data.students || []);
       setLoading(false);
     } catch (error) {
       setError(error.message);
+      setLoading(false);
     }
   };
 
@@ -33,14 +32,10 @@ const Student = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this student?",
-    );
+    const confirmed = window.confirm("Are you sure you want to delete this student?");
     if (!confirmed) return;
     try {
-      const res = await axios.delete(
-        `http://localhost:5000/api/students/delete/${id}`,
-      );
+      const res = await axios.delete(`http://localhost:5000/api/students/delete/${id}`);
       if (res.status === 200) {
         alert("Student deleted successfully");
         setStudents((prev) => prev.filter((s) => s._id !== id));
@@ -53,9 +48,7 @@ const Student = () => {
 
   if (loading)
     return (
-      <div className="flex justify-center items-center h-screen">
-        Loading...
-      </div>
+      <div className="flex justify-center items-center h-screen">Loading...</div>
     );
 
   return (
@@ -92,12 +85,11 @@ const Student = () => {
                   onClick={() => nav(`/StudentForm`)}
                 >
                   <MdPersonAddAlt1 className="text-2xl" />
-                  <span className="whitespace-nowrap">
-                    Register new Student
-                  </span>
+                  <span className="whitespace-nowrap">Register new Student</span>
                 </button>
               </div>
             </div>
+
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-10 md:mt-16 gap-6">
               <div className="group rounded-2xl p-6 md:p-8 flex justify-between items-center bg-gradient-to-r from-slate-700 to-blue-600 text-white shadow-xl cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:brightness-110">
                 <div>
@@ -141,122 +133,81 @@ const Student = () => {
                 </div>
               </div>
             </div>
-            <div className="table-fixed mt-10">
-              <table className="min-w-full">
-                <thead>
-                  <tr className="bg-gradient-to-r from-slate-200 to-slate-400 border-b border-slate-700 ">
-                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      ID
-                    </th>
-                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Full Name
-                    </th>
-                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Email
-                    </th>
-                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Gender
-                    </th>
-                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Course
-                    </th>
 
-                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Phone
-                    </th>
-                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Address
-                    </th>
-                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
+            {/* TABLE */}
+            <div className="mt-10 w-full overflow-x-auto">
+              <div className="min-w-[1000px]">
+                <table className="w-full table-fixed">
+                  <thead>
+                    <tr className="bg-gradient-to-r from-slate-200 to-slate-400 border-b border-slate-700">
+                      <th className="w-14 px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">ID</th>
+                      <th className="px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Full Name</th>
+                      <th className="px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Email</th>
+                      <th className="w-24 px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Gender</th>
+                      <th className="px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Course</th>
+                      <th className="px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Phone</th>
+                      <th className="px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Address</th>
+                      <th className="w-28 px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Status</th>
+                      <th className="w-36 px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Actions</th>
+                    </tr>
+                  </thead>
 
-                <tbody className="divide-y divide-slate-200">
-                  <tr className="hover:bg-sky-100/50 transition-all duration-300 ">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-slate-900">
-                      1
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                      Arjun Thapa
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      arjun.thapa@email.com
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      Male
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      Computer Science
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      9841000000
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      Kathmandu, Nepal
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-3 py-1 text-[12px] font-bold  tracking-wider rounded-full bg-green-200/50 text-green-800 border border-green-200">
-                        Paid
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex items-center gap-3">
-                        <button className="flex gap-2 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105 ">
-                          <FiEdit className="" /> <span>Edit</span>
-                        </button>
-                        <button className="flex gap-2 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105 ">
-                          <RiDeleteBin6Line /> <span>Delete</span>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                  <tbody className="divide-y divide-slate-200 ">
+                    <tr className="hover:bg-sky-100/50 transition-all duration-300">
+                      <td className="px-4 py-4 text-center text-sm font-bold text-slate-900">1</td>
+                      <td className="px-4 py-4 text-center text-sm font-medium text-gray-800">Arjun Thapa</td>
+                      <td className="px-4 py-4 text-center text-sm text-gray-600 break-all">arjun.thapa@email.com</td>
+                      <td className="px-4 py-4 text-center text-sm text-gray-600">Male</td>
+                      <td className="px-4 py-4 text-center text-sm text-gray-600">Computer Science</td>
+                      <td className="px-4 py-4 text-center text-sm text-gray-600">9841000000</td>
+                      <td className="px-4 py-4 text-center text-sm text-gray-600">Kathmandu, Nepal</td>
+                      <td className="px-4 py-4 text-center">
+                        <span className="px-3 py-1 text-[12px] font-bold tracking-wider rounded-full bg-green-200/50 text-green-800 border border-green-200">
+                          Paid
+                        </span>
+                      </td>
+                      <td className="px-4 py-4 text-center text-sm font-medium">
+                        <div className="flex items-center justify-center gap-2">
+                          <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105">
+                            <FiEdit /> <span>Edit</span>
+                          </button>
+                          <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105">
+                            <RiDeleteBin6Line /> <span>Delete</span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
 
-                  <tr className="hover:bg-sky-100/50 transition-all duration-300">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-slate-900">
-                      2
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                      Sita Sharma
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      sita.sharma@email.com
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      Female
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      Business Admin
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      9801000000
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      Lalitpur, Nepal
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-3 py-1 text-[12px] font-bold tracking-wider rounded-full bg-yellow-200/50 text-yellow-800 border border-yellow-200">
-                        Pending
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex items-center gap-3">
-                        <button className="flex gap-2 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105">
-                          <FiEdit /> <span>Edit</span>
-                        </button>
-                        <button className="flex gap-2 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105">
-                          <RiDeleteBin6Line /> <span>Delete</span>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                    <tr className="hover:bg-sky-100/50 transition-all duration-300">
+                      <td className="px-4 py-4 text-center text-sm font-bold text-slate-900">2</td>
+                      <td className="px-4 py-4 text-center text-sm font-medium text-gray-800">Sita Sharma</td>
+                      <td className="px-4 py-4 text-center text-sm text-gray-600 break-all">sita.sharma@email.com</td>
+                      <td className="px-4 py-4 text-center text-sm text-gray-600">Female</td>
+                      <td className="px-4 py-4 text-center text-sm text-gray-600">Business Admin</td>
+                      <td className="px-4 py-4 text-center text-sm text-gray-600">9801000000</td>
+                      <td className="px-4 py-4 text-center text-sm text-gray-600">Lalitpur, Nepal</td>
+                      <td className="px-4 py-4 text-center">
+                        <span className="px-3 py-1 text-[12px] font-bold tracking-wider rounded-full bg-yellow-200/50 text-yellow-800 border border-yellow-200">
+                          Pending
+                        </span>
+                      </td>
+                      <td className="px-4 py-4 text-center text-sm font-medium">
+                        <div className="flex items-center justify-center gap-2">
+                          <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105">
+                            <FiEdit /> <span>Edit</span>
+                          </button>
+                          <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105">
+                            <RiDeleteBin6Line /> <span>Delete</span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
+            {/* END TABLE */}
+
           </div>
         </main>
       </div>
