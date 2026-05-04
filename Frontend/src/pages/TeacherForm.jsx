@@ -277,7 +277,7 @@ const TeacherForm = () => {
               <div className="flex justify-end gap-3 pt-4">
                 <button
                   type="button"
-                  className="px-4 py-2 rounded-lg border text-gray-600 hover:bg-gray-200 shadow-sm"
+                  className="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 active:scale-95 shadow-xl transition-all duration-150"
                   onClick={ResetForm}
                 >
                   Reset
@@ -285,7 +285,12 @@ const TeacherForm = () => {
 
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 shadow-md"
+                  className={`px-5 py-2 rounded-lg text-white shadow-md active:scale-95 transition-all duration-150
+      ${
+        isEditMode
+          ? "bg-teal-600 hover:bg-teal-700 hover:shadow-[0_4px_14px_rgba(15,118,110,0.4)] active:bg-teal-800"
+          : "bg-blue-600 hover:bg-blue-700 hover:shadow-[0_4px_14px_rgba(37,99,235,0.4)] active:bg-blue-800"
+      }`}
                 >
                   {isEditMode ? "Update" : "Submit"}
                 </button>
