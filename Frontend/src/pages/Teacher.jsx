@@ -20,7 +20,7 @@ const Teacher = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:5000/api/teachers/getTeacher`,
+        `http://localhost:5000/api/teachers/getTeacher`
       );
       setTeachers(res.data.teachers);
       setLoading(false);
@@ -32,12 +32,12 @@ const Teacher = () => {
 
   const handleDelete = async (id) => {
     const confirmed = window.confirm(
-      "Are you sure want to delete this teacher?",
+      "Are you sure want to delete this teacher?"
     );
     if (!confirmed) return;
     try {
       const res = await axios.delete(
-        `http://localhost:5000/api/teachers/delete/${id}`,
+        `http://localhost:5000/api/teachers/delete/${id}`
       );
       if (res.status === 200) {
         alert("Teacher deleted successfully!");
@@ -61,7 +61,8 @@ const Teacher = () => {
     );
 
   return (
-    <div className="flex min-h-screen bg-slate-300">
+    <div className="flex h-screen overflow-hidden bg-slate-300">
+      {/* Sidebar — locked, never scrolls */}
       <div
         className={`${
           isOpen ? "w-80" : "w-0"
@@ -70,11 +71,15 @@ const Teacher = () => {
         <Sidebar isOpen={isOpen} />
       </div>
 
-      <div className="flex-1 flex flex-col min-w-0">
+      {/* Right side */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <Header toggleSidebar={() => setIsOpen(!isOpen)} />
 
-        <main className="p-4 md:p-10 space-y-6 md:space-y-10">
+        {/* Only this scrolls */}
+        <main className="flex-1 overflow-y-auto p-4 md:p-10 space-y-6 md:space-y-10">
           <div className="px-1 md:px-6 lg:px-10">
+
+            {/* Header banner */}
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-8 md:p-10 rounded-2xl bg-slate-200 shadow-2xl border-l-[12px] border-b-[6px] border-[#2249A3] gap-6">
               <div className="flex flex-col font-serif">
                 <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-800 to-blue-600 bg-clip-text text-transparent">
@@ -84,7 +89,6 @@ const Teacher = () => {
                   Manage and view all teacher information
                 </p>
               </div>
-
               <div className="w-full md:w-auto">
                 <button
                   className="w-full cursor-pointer flex items-center justify-center gap-2 font-serif font-bold px-8 py-4 
@@ -94,13 +98,12 @@ const Teacher = () => {
                   onClick={() => nav(`/TeacherForm`)}
                 >
                   <MdPersonAddAlt1 className="text-2xl" />
-                  <span className="whitespace-nowrap">
-                    Register new Teacher
-                  </span>
+                  <span className="whitespace-nowrap">Register new Teacher</span>
                 </button>
               </div>
             </div>
 
+            {/* Table */}
             <div className="mt-10 w-full overflow-x-auto">
               <div className="min-w-[900px]">
                 <div className="w-full overflow-hidden rounded-t-3xl">
@@ -153,7 +156,7 @@ const Teacher = () => {
                     {teachers.length === 0 ? (
                       <tr>
                         <td
-                          colSpan="9"
+                          colSpan="8"
                           className="text-center py-6 text-gray-500"
                         >
                           No teachers found
@@ -161,14 +164,15 @@ const Teacher = () => {
                       </tr>
                     ) : (
                       teachers.map((teacher, index) => (
-                        <tr className="hover:bg-sky-100/50 transition-all duration-300"
-                        key={teacher._id}
+                        <tr
+                          key={teacher._id}
+                          className="hover:bg-sky-100/50 transition-all duration-300"
                         >
                           <td className="px-4 py-4 text-center text-sm font-bold text-slate-900">
                             {index + 1}
                           </td>
                           <td className="px-3 py-4 text-center text-sm font-medium text-gray-800">
-                          {`${teacher.first_name} ${teacher.last_name}`}
+                            {`${teacher.first_name} ${teacher.last_name}`}
                           </td>
                           <td className="px-3 py-4 text-center text-sm text-gray-600 break-all">
                             {teacher.email}
@@ -187,13 +191,15 @@ const Teacher = () => {
                           </td>
                           <td className="px-3 py-4 text-center text-sm font-medium">
                             <div className="flex items-center justify-center gap-2">
-                              <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105"
-                              onClick={() => nav(`/TeacherForm/${teacher._id}`)}
+                              <button
+                                className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105"
+                                onClick={() => nav(`/TeacherForm/${teacher._id}`)}
                               >
                                 <FiEdit /> <span>Edit</span>
                               </button>
-                              <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105"
-                              onClick={() => handleDelete(teacher._id)}
+                              <button
+                                className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105"
+                                onClick={() => handleDelete(teacher._id)}
                               >
                                 <RiDeleteBin6Line /> <span>Delete</span>
                               </button>
@@ -206,6 +212,7 @@ const Teacher = () => {
                 </table>
               </div>
             </div>
+
           </div>
         </main>
       </div>

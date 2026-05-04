@@ -359,7 +359,7 @@ const StudentForm = () => {
               <div className="flex justify-end gap-3 pt-4">
                 <button
                   type="button"
-                  className="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 active:scale-95 shadow-xl transition-all duration-150"
+                  className="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 active:scale-95 shadow-2xl transition-all duration-150"
                   onClick={ResetForm}
                 >
                   Reset

@@ -10,19 +10,22 @@ const Sidebar = ({ isOpen }) => {
   const nav = useNavigate();
   return (
     <div
-      className={`${isOpen ? "w-80 p-6" : "w-0 p-0 overflow-hidden border-none shadow-none"} transition-all duration-300 ease-in-out h-screen bg-gradient-to-b from-slate-400/60 to-white/20 backdrop-blur-xl border-r border-slate-300/50 shadow-2xl shadow-indigo-900/90 space-y-4 relative`}
+      className={`${
+        isOpen
+          ? "w-80 p-6"
+          : "w-0 p-0 overflow-hidden border-none shadow-none"
+      } transition-all duration-300 ease-in-out h-full bg-gradient-to-b from-slate-400/60 to-white/20 backdrop-blur-xl border-r border-slate-300/50 shadow-2xl shadow-indigo-900/90 space-y-4 relative`}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/2 to-purple-500/1" />
       <div className="absolute top-20 right-4 w-12 h-12 bg-indigo-400/10 rounded-full blur-xl animate-pulse" />
 
       <div
         className="group p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50 shadow-lg mb-6 cursor-pointer shrink-0 
-  transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 active:scale-95"
+        transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 active:scale-95"
         onClick={() => nav(`/`)}
       >
         <div className="flex items-center gap-3">
           <FaRegUserCircle className="text-blue-400 text-2xl transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110" />
-
           <h1 className="font-black font-serif text-xl bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent whitespace-nowrap">
             Admin Panel
           </h1>
@@ -46,7 +49,7 @@ const Sidebar = ({ isOpen }) => {
         </div>
 
         <div
-          className="group relative p-4 bg-white/70 backdrop-blur-sm rounded-2xl border border-white/60 shadow-sm hover:shadow-xl hover:shadow-blue-500/20 hover:border-blue-200/50 hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 transition-all duration-300 cursor-pointer overflow-hidden whitespace-nowrap "
+          className="group relative p-4 bg-white/70 backdrop-blur-sm rounded-2xl border border-white/60 shadow-sm hover:shadow-xl hover:shadow-blue-500/20 hover:border-blue-200/50 hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 transition-all duration-300 cursor-pointer overflow-hidden whitespace-nowrap"
           onClick={() => nav(`/Student`)}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-cyan-400/10 opacity-0 group-hover:opacity-100 blur-sm transition-all duration-500 rounded-2xl -z-10" />
