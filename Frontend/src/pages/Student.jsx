@@ -18,7 +18,9 @@ const Student = () => {
   const fetchStudent = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`http://localhost:5000/api/students/getStudent`);
+      const res = await axios.get(
+        `http://localhost:5000/api/students/getStudent`,
+      );
       setStudents(res.data.students || []);
       setLoading(false);
     } catch (error) {
@@ -32,10 +34,14 @@ const Student = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    const confirmed = window.confirm("Are you sure you want to delete this student?");
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this student?",
+    );
     if (!confirmed) return;
     try {
-      const res = await axios.delete(`http://localhost:5000/api/students/delete/${id}`);
+      const res = await axios.delete(
+        `http://localhost:5000/api/students/delete/${id}`,
+      );
       if (res.status === 200) {
         alert("Student deleted successfully");
         setStudents((prev) => prev.filter((s) => s._id !== id));
@@ -48,7 +54,9 @@ const Student = () => {
 
   if (loading)
     return (
-      <div className="flex justify-center items-center h-screen">Loading...</div>
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
     );
 
   return (
@@ -85,7 +93,9 @@ const Student = () => {
                   onClick={() => nav(`/StudentForm`)}
                 >
                   <MdPersonAddAlt1 className="text-2xl" />
-                  <span className="whitespace-nowrap">Register new Student</span>
+                  <span className="whitespace-nowrap">
+                    Register new Student
+                  </span>
                 </button>
               </div>
             </div>
@@ -97,7 +107,7 @@ const Student = () => {
                     Total Students
                   </h1>
                   <p className="mt-2 text-4xl md:text-5xl font-bold transition-all duration-300 group-hover:scale-110 origin-left">
-                    8
+                    {students.length}
                   </p>
                 </div>
                 <div className="w-14 h-14 bg-white/20 rounded-xl backdrop-blur-md flex items-center justify-center border border-white/30 transition-all duration-500 group-hover:rotate-12">
@@ -111,7 +121,7 @@ const Student = () => {
                     Paid Students
                   </h1>
                   <p className="mt-2 text-4xl md:text-5xl font-bold transition-all duration-300 group-hover:scale-110 origin-left">
-                    3
+                    {students.filter((s) => s.payment_status === "Paid").length}
                   </p>
                 </div>
                 <div className="w-14 h-14 bg-white/20 rounded-xl backdrop-blur-md flex items-center justify-center border border-white/30 transition-all duration-500 group-hover:rotate-12">
@@ -125,7 +135,10 @@ const Student = () => {
                     Pending Students
                   </h1>
                   <p className="mt-2 text-4xl md:text-5xl font-bold transition-all duration-300 group-hover:scale-110 origin-left">
-                    5
+                    {
+                      students.filter((s) => s.payment_status === "Pending")
+                        .length
+                    }
                   </p>
                 </div>
                 <div className="w-14 h-14 bg-white/20 rounded-xl backdrop-blur-md flex items-center justify-center border border-white/30 transition-all duration-500 group-hover:rotate-12">
@@ -134,80 +147,123 @@ const Student = () => {
               </div>
             </div>
 
-            {/* TABLE */}
             <div className="mt-10 w-full overflow-x-auto">
               <div className="min-w-[1000px]">
                 <table className="w-full table-fixed">
                   <thead>
                     <tr className="bg-gradient-to-r from-slate-200 to-slate-400 border-b border-slate-700">
-                      <th className="w-14 px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">ID</th>
-                      <th className="px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Full Name</th>
-                      <th className="px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Email</th>
-                      <th className="w-24 px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Gender</th>
-                      <th className="px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Course</th>
-                      <th className="px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Phone</th>
-                      <th className="px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Address</th>
-                      <th className="w-28 px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Status</th>
-                      <th className="w-36 px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Actions</th>
+                      <th className="w-14 px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        ID
+                      </th>
+                      <th className="px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        Full Name
+                      </th>
+                      <th className="px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        Email
+                      </th>
+                      <th className="w-24 px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        Gender
+                      </th>
+                      <th className="px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        Course
+                      </th>
+                      <th className="px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        Phone
+                      </th>
+                      <th className="px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        Address
+                      </th>
+                      <th className="w-28 px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        Status
+                      </th>
+                      <th className="w-36 px-4 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        Actions
+                      </th>
                     </tr>
                   </thead>
 
-                  <tbody className="divide-y divide-slate-200 ">
-                    <tr className="hover:bg-sky-100/50 transition-all duration-300">
-                      <td className="px-4 py-4 text-center text-sm font-bold text-slate-900">1</td>
-                      <td className="px-4 py-4 text-center text-sm font-medium text-gray-800">Arjun Thapa</td>
-                      <td className="px-4 py-4 text-center text-sm text-gray-600 break-all">arjun.thapa@email.com</td>
-                      <td className="px-4 py-4 text-center text-sm text-gray-600">Male</td>
-                      <td className="px-4 py-4 text-center text-sm text-gray-600">Computer Science</td>
-                      <td className="px-4 py-4 text-center text-sm text-gray-600">9841000000</td>
-                      <td className="px-4 py-4 text-center text-sm text-gray-600">Kathmandu, Nepal</td>
-                      <td className="px-4 py-4 text-center">
-                        <span className="px-3 py-1 text-[12px] font-bold tracking-wider rounded-full bg-green-200/50 text-green-800 border border-green-200">
-                          Paid
-                        </span>
-                      </td>
-                      <td className="px-4 py-4 text-center text-sm font-medium">
-                        <div className="flex items-center justify-center gap-2">
-                          <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105">
-                            <FiEdit /> <span>Edit</span>
-                          </button>
-                          <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105">
-                            <RiDeleteBin6Line /> <span>Delete</span>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
+                  <tbody className="divide-y divide-slate-200">
+                    {students.length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan="9"
+                          className="text-center py-6 text-gray-500"
+                        >
+                          No students found
+                        </td>
+                      </tr>
+                    ) : (
+                      students.map((student, index) => (
+                        <tr
+                          key={student._id}
+                          className="hover:bg-sky-100/50 transition-all duration-300"
+                        >
+                          <td className="px-4 py-4 text-center text-sm font-bold text-slate-900">
+                            {index + 1}
+                          </td>
 
-                    <tr className="hover:bg-sky-100/50 transition-all duration-300">
-                      <td className="px-4 py-4 text-center text-sm font-bold text-slate-900">2</td>
-                      <td className="px-4 py-4 text-center text-sm font-medium text-gray-800">Sita Sharma</td>
-                      <td className="px-4 py-4 text-center text-sm text-gray-600 break-all">sita.sharma@email.com</td>
-                      <td className="px-4 py-4 text-center text-sm text-gray-600">Female</td>
-                      <td className="px-4 py-4 text-center text-sm text-gray-600">Business Admin</td>
-                      <td className="px-4 py-4 text-center text-sm text-gray-600">9801000000</td>
-                      <td className="px-4 py-4 text-center text-sm text-gray-600">Lalitpur, Nepal</td>
-                      <td className="px-4 py-4 text-center">
-                        <span className="px-3 py-1 text-[12px] font-bold tracking-wider rounded-full bg-yellow-200/50 text-yellow-800 border border-yellow-200">
-                          Pending
-                        </span>
-                      </td>
-                      <td className="px-4 py-4 text-center text-sm font-medium">
-                        <div className="flex items-center justify-center gap-2">
-                          <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105">
-                            <FiEdit /> <span>Edit</span>
-                          </button>
-                          <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105">
-                            <RiDeleteBin6Line /> <span>Delete</span>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
+                          <td className="px-4 py-4 text-center text-sm font-medium text-gray-800">
+                            {`${student.first_name} ${student.last_name}`}
+                          </td>
+
+                          <td className="px-4 py-4 text-center text-sm text-gray-600 break-all">
+                            {student.email}
+                          </td>
+
+                          <td className="px-4 py-4 text-center text-sm text-gray-600">
+                            {student.gender}
+                          </td>
+
+                          <td className="px-4 py-4 text-center text-sm text-gray-600">
+                            {student.course}
+                          </td>
+
+                          <td className="px-4 py-4 text-center text-sm text-gray-600">
+                            {student.phone}
+                          </td>
+
+                          <td className="px-4 py-4 text-center text-sm text-gray-600">
+                            {student.address}
+                          </td>
+
+                          <td className="px-4 py-4 text-center">
+                            <span
+                              className={`px-3 py-1 text-[12px] font-bold tracking-wider rounded-full border ${
+                                student.payment_status === "Paid"
+                                  ? "bg-green-200/50 text-green-800 border-green-200"
+                                  : "bg-yellow-200/50 text-yellow-800 border-yellow-200"
+                              }`}
+                            >
+                              {student.payment_status}
+                            </span>
+                          </td>
+
+                          <td className="px-4 py-4 text-center text-sm font-medium">
+                            <div className="flex items-center justify-center gap-2">
+                              <button
+                                onClick={() =>
+                                  nav(`/StudentForm/${student._id}`)
+                                }
+                                className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105"
+                              >
+                                <FiEdit /> <span>Edit</span>
+                              </button>
+
+                              <button
+                                onClick={() => handleDelete(student._id)}
+                                className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105"
+                              >
+                                <RiDeleteBin6Line /> <span>Delete</span>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>
             </div>
-            {/* END TABLE */}
-
           </div>
         </main>
       </div>

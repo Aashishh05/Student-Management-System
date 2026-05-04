@@ -23,6 +23,7 @@ const App = () => {
         <Route path='/Student' element={<Student />} />
         <Route path='/Teacher' element={<Teacher />} /> 
         <Route path='/Courses' element={<Courses />} />
+        <Route path='/StudentForm/:id' element={<StudentForm /> } />
       </Routes>
     </div>
   )

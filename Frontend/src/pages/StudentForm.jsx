@@ -9,6 +9,7 @@ const StudentForm = () => {
   const [isOpen, setIsOpen] = useState(true);
 
   const { id } = useParams();
+  console.log(id)
   const isEditMode = Boolean(id);
   const nav = useNavigate();
 
@@ -51,9 +52,9 @@ const StudentForm = () => {
         setLoadingData(true);
         try {
           const student_res = await axios.get(
-            `http://localhost:5000/api/students/getStudents/${id}`,
+            `http://localhost:5000/api/students/getStudent/${id}`,
           );
-          setFormdata(student_res.data);
+          setFormdata(student_res.data.student);
         } catch (error) {
           console.log("Error fetching student", error);
           alert("Failed to load student data");
@@ -313,10 +314,10 @@ const StudentForm = () => {
                   required
                 >
                   <option>Select Payment Status</option>
-                  <option>Paid</option>
-                  <option>Pending</option>
-                  <option>Overdue</option>
-                  <option>Partial</option>
+                  <option value="Paid">Paid</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Overdue">Overdue</option>
+                  <option value="Partial">Partial</option>
                 </select>
               </div>
 
