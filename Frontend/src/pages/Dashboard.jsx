@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "../component/Sidebar";
 import Header from "../component/Header";
+import Student from "./Student";
 
 const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(true);

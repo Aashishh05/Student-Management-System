@@ -43,9 +43,10 @@ const CoursesForm = () => {
         const course_res = await axios.get(
           `http://localhost:5000/api/courses/getCourse/${id}`,
         );
-        setFormdata(course_res.data);
+        console.log(course_res);
+        setFormdata(course_res.data.course);
       } catch (error) {
-        console.log("Error fetching course");
+        console.log("Error fetching course",error);
         alert("Failed to load course");
       }finally{
         setLoadingData(false);
@@ -214,8 +215,8 @@ const CoursesForm = () => {
                   required
                 >
                   <option value="">--Status--</option>
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
+                  <option value="active">active</option>
+                  <option value="inactive">inactive</option>
                 </select>
               </div>
 

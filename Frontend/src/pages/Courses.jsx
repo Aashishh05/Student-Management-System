@@ -22,7 +22,7 @@ const Courses = () => {
       const res = await axios.get(
         `http://localhost:5000/api/courses/getCourse`,
       );
-      setCourses(res.data.Courses);
+      setCourses(res.data.courses);
       setLoading(false);
     } catch (error) {
       setError(error.message);
@@ -54,6 +54,13 @@ const Courses = () => {
     return (
       <div className="flex justify-center items-center h-screen">
         Loading...
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="flex justify-center items-center h-screen text-red-500">
+        {error}
       </div>
     );
   return (
@@ -109,7 +116,7 @@ const Courses = () => {
                   </div>
 
                   <h2 className="text-slate-300 text-lg font-medium">
-                    0 Total Records
+                    {courses.length} Total Records
                   </h2>
                 </div>
               </div>
@@ -141,73 +148,68 @@ const Courses = () => {
                 </thead>
 
                 <tbody className="divide-y divide-slate-200">
-                  <tr className="hover:bg-sky-100/50 transition-all duration-300">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-slate-900 text-center">
-                      1
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 text-center">
-                      Science
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
-                      Science
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
-                      4 months
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
-                      10000
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
-                      <span className="px-3 py-1 text-[12px] font-bold tracking-wider rounded-full bg-green-200/50 text-green-800 border border-green-200">
-                        Active
-                      </span>
-                    </td>
+                  {courses.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan="9"
+                        className="text-center py-6 text-gray-500"
+                      >
+                        No Courses found
+                      </td>
+                    </tr>
+                  ) : (
+                    courses.map((course, index) => (
+                      <tr
+                        className="hover:bg-sky-100/50 transition-all duration-300"
+                        key={course._id}
+                      >
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-slate-900 text-center">
+                          {index + 1}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 text-center">
+                          {course.Title}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-600 text-center max-w-[200px] truncate">
+                          {course.Description}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
+                          {course.Duration}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
+                          {course.Basefee}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-center">
+                          <span
+                            className={`px-3 py-1 text-[12px] font-bold tracking-wider rounded-full border
+    ${
+      course.Status === "active"
+        ? "bg-green-200/50 text-green-800 border-green-200"
+        : "bg-red-200/50 text-red-800 border-red-200"
+    }`}
+                          >
+                            {course.Status}
+                          </span>
+                        </td>
 
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
-                      <div className="flex items-center justify-center gap-3">
-                        <button className="flex gap-2 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105">
-                          <FiEdit /> <span>Edit</span>
-                        </button>
-                        <button className="flex gap-2 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105">
-                          <RiDeleteBin6Line /> <span>Delete</span>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr className="hover:bg-sky-100/50 transition-all duration-300">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-slate-900 text-center">
-                      1
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 text-center">
-                      Science
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
-                      Science
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
-                      4 months
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
-                      10000
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
-                      <span className="px-3 py-1 text-[12px] font-bold tracking-wider rounded-full bg-red-300/50 text-red-800 border border-red-200">
-                        Inactive
-                      </span>
-                    </td>
-
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
-                      <div className="flex items-center justify-center gap-3">
-                        <button className="flex gap-2 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105">
-                          <FiEdit /> <span>Edit</span>
-                        </button>
-                        <button className="flex gap-2 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105">
-                          <RiDeleteBin6Line /> <span>Delete</span>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
+                          <div className="flex items-center justify-center gap-3">
+                            <button
+                              className="flex gap-2 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105"
+                              onClick={() => nav(`/CoursesForm/${course._id}`)}
+                            >
+                              <FiEdit /> <span>Edit</span>
+                            </button>
+                            <button
+                              className="flex gap-2 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105"
+                              onClick={() => handleDelete(course._id)}
+                            >
+                              <RiDeleteBin6Line /> <span>Delete</span>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
