@@ -114,7 +114,7 @@ const Teacher = () => {
                       </h1>
                     </div>
                     <h2 className="text-slate-300 text-lg font-medium">
-                      0 Total Records
+                      {teachers.length} total records
                     </h2>
                   </div>
                 </div>
@@ -150,73 +150,58 @@ const Teacher = () => {
                   </thead>
 
                   <tbody className="divide-y divide-slate-200">
-                    <tr className="hover:bg-sky-100/50 transition-all duration-300">
-                      <td className="px-4 py-4 text-center text-sm font-bold text-slate-900">
-                        1
-                      </td>
-                      <td className="px-3 py-4 text-center text-sm font-medium text-gray-800">
-                        Arjun Thapa
-                      </td>
-                      <td className="px-3 py-4 text-center text-sm text-gray-600 break-all">
-                        arjun.thapa@email.com
-                      </td>
-                      <td className="px-3 py-4 text-center text-sm text-gray-600">
-                        Male
-                      </td>
-                      <td className="px-3 py-4 text-center text-sm text-gray-600">
-                        Computer Science
-                      </td>
-                      <td className="px-3 py-4 text-center text-sm text-gray-600">
-                        9841000003
-                      </td>
-                      <td className="px-3 py-4 text-center text-sm text-gray-600">
-                        Kathmandu, Nepal
-                      </td>
-                      <td className="px-3 py-4 text-center text-sm font-medium">
-                        <div className="flex items-center justify-center gap-2">
-                          <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105">
-                            <FiEdit /> <span>Edit</span>
-                          </button>
-                          <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105">
-                            <RiDeleteBin6Line /> <span>Delete</span>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-
-                    <tr className="hover:bg-sky-100/50 transition-all duration-300">
-                      <td className="px-4 py-4 text-center text-sm font-bold text-slate-900">
-                        2
-                      </td>
-                      <td className="px-4 py-4 text-center text-sm font-medium text-gray-800">
-                        Sita Sharma
-                      </td>
-                      <td className="px-4 py-4 text-center text-sm text-gray-600 break-all">
-                        sita.sharma@email.com
-                      </td>
-                      <td className="px-4 py-4 text-center text-sm text-gray-600">
-                        Female
-                      </td>
-                      <td className="px-4 py-4 text-center text-sm text-gray-600">
-                        Business Admin
-                      </td>
-                      <td className="px-4 py-4 text-center text-sm text-gray-600">
-                        9801000000
-                      </td>
-                      <td className="px-4 py-4 text-center text-sm text-gray-600">
-                        Lalitpur, Nepal
-                      </td>
-                      <td className="px-4 py-4 text-center text-sm font-medium">
-                        <div className="flex items-center justify-center gap-2">
-                          <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105">
-                            <FiEdit /> <span>Edit</span>
-                          </button>
-                          <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105">
-                            <RiDeleteBin6Line /> <span>Delete</span>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
+                    {teachers.length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan="9"
+                          className="text-center py-6 text-gray-500"
+                        >
+                          No teachers found
+                        </td>
+                      </tr>
+                    ) : (
+                      teachers.map((teacher, index) => (
+                        <tr className="hover:bg-sky-100/50 transition-all duration-300"
+                        key={teacher._id}
+                        >
+                          <td className="px-4 py-4 text-center text-sm font-bold text-slate-900">
+                            {index + 1}
+                          </td>
+                          <td className="px-3 py-4 text-center text-sm font-medium text-gray-800">
+                          {`${teacher.first_name} ${teacher.last_name}`}
+                          </td>
+                          <td className="px-3 py-4 text-center text-sm text-gray-600 break-all">
+                            {teacher.email}
+                          </td>
+                          <td className="px-3 py-4 text-center text-sm text-gray-600">
+                            {teacher.gender}
+                          </td>
+                          <td className="px-3 py-4 text-center text-sm text-gray-600">
+                            {teacher.courses}
+                          </td>
+                          <td className="px-3 py-4 text-center text-sm text-gray-600">
+                            {teacher.phone}
+                          </td>
+                          <td className="px-3 py-4 text-center text-sm text-gray-600">
+                            {teacher.address}
+                          </td>
+                          <td className="px-3 py-4 text-center text-sm font-medium">
+                            <div className="flex items-center justify-center gap-2">
+                              <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105"
+                              onClick={() => nav(`/TeacherForm/${teacher._id}`)}
+                              >
+                                <FiEdit /> <span>Edit</span>
+                              </button>
+                              <button className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105"
+                              onClick={() => handleDelete(teacher._id)}
+                              >
+                                <RiDeleteBin6Line /> <span>Delete</span>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>
