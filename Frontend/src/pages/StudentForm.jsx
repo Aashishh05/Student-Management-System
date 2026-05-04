@@ -9,7 +9,7 @@ const StudentForm = () => {
   const [isOpen, setIsOpen] = useState(true);
 
   const { id } = useParams();
-  console.log(id)
+  console.log(id);
   const isEditMode = Boolean(id);
   const nav = useNavigate();
 
@@ -43,30 +43,50 @@ const StudentForm = () => {
     setFormdata((prev) => ({ ...prev, [name]: value }));
   };
 
+  const [courses, setCourses] = useState([]);
+  const [teachers, setTeachers] = useState([]);
+  const [lodaing, setLodaing] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
 
-  useEffect(
-    () => {
-      if (!isEditMode) return;
-      const fetchStudent = async () => {
-        setLoadingData(true);
-        try {
-          const student_res = await axios.get(
-            `http://localhost:5000/api/students/getStudent/${id}`,
-          );
-          setFormdata(student_res.data.student);
-        } catch (error) {
-          console.log("Error fetching student", error);
-          alert("Failed to load student data");
-        } finally {
-          setLoadingData(false);
-        }
-      };
-      fetchStudent();
-    },
-    [id, isEditMode],
-    
-  );
+  useEffect(() => {
+    const fetch_Students_Courses = async () => {
+      setLodaing(true);
+      try {
+        const teacher_res = await axios.get(
+          "http://localhost:5000/api/teachers/getTeacher",
+        );
+        const course_res = await axios.get(
+          "http://localhost:5000/api/courses/getCourse",
+        );
+
+        setTeachers(teacher_res.data.teachers);
+        setCourses(course_res.data.courses);
+      } catch (error) {
+        console.log("Error fetching students, teachers or courses", error);
+        alert("Failed to load students, teachers or courses");
+      } finally {
+        setLodaing(false);
+      }
+    };
+    fetch_Students_Courses();
+
+    if (!isEditMode) return;
+    const fetchStudent = async () => {
+      setLoadingData(true);
+      try {
+        const student_res = await axios.get(
+          `http://localhost:5000/api/students/getStudent/${id}`,
+        );
+        setFormdata(student_res.data.student);
+      } catch (error) {
+        console.log("Error fetching student", error);
+        alert("Failed to load student data");
+      } finally {
+        setLoadingData(false);
+      }
+    };
+    fetchStudent();
+  }, [id, isEditMode]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -120,7 +140,12 @@ const StudentForm = () => {
     }
   };
 
-  if (loadingData) return <div className="flex justify-center items-center h-screen">Loading...</div>;
+  if (loadingData)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
 
   return (
     <div className="flex min-h-screen bg-slate-300 overflow-x-hidden">
@@ -280,6 +305,11 @@ const StudentForm = () => {
                   value={formdata.course}
                 >
                   <option value="">--Select Course--</option>
+                  {courses.map((course) => (
+                    <option key={course._id} value={course.Title}>
+                      {course.Title}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -297,6 +327,12 @@ const StudentForm = () => {
                   required
                 >
                   <option value="">--Select Teacher--</option>
+
+                  {teachers.map((teacher) => (
+                    <option key={teacher._id} value={teacher.first_name}>
+                      {teacher.first_name}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -320,11 +356,10 @@ const StudentForm = () => {
                   <option value="Partial">Partial</option>
                 </select>
               </div>
-
               <div className="flex justify-end gap-3 pt-4">
                 <button
                   type="button"
-                  className="px-4 py-2 rounded-lg border text-gray-600 hover:bg-gray-200 shadow-sm transition-colors"
+                  className="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 active:scale-95 shadow-xl transition-all duration-150"
                   onClick={ResetForm}
                 >
                   Reset
@@ -332,7 +367,12 @@ const StudentForm = () => {
 
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 shadow-md transition-colors"
+                  className={`px-5 py-2 rounded-lg text-white shadow-md active:scale-95 transition-all duration-150
+      ${
+        isEditMode
+          ? "bg-teal-600 hover:bg-teal-700 hover:shadow-[0_4px_14px_rgba(15,118,110,0.4)] active:bg-teal-800"
+          : "bg-blue-600 hover:bg-blue-700 hover:shadow-[0_4px_14px_rgba(37,99,235,0.4)] active:bg-blue-800"
+      }`}
                 >
                   {isEditMode ? "Update" : "Submit"}
                 </button>
