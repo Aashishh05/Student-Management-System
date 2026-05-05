@@ -225,7 +225,9 @@ const Student = () => {
                               className={`px-3 py-1 text-[12px] font-bold tracking-wider rounded-full border ${
                                 student.payment_status === "Paid"
                                   ? "bg-green-200/50 text-green-800 border-green-200"
-                                  : "bg-yellow-200/50 text-yellow-800 border-yellow-200"
+                                  : student.payment_status === "Pending"
+                                  ? "bg-yellow-200/50 text-yellow-800 border-yellow-200"
+                                  :"bg-red-200/70 text-red-800 border-red-200"
                               }`}
                             >
                               {student.payment_status}
