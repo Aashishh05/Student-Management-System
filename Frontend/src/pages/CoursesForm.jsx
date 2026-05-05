@@ -3,6 +3,7 @@ import Sidebar from "../component/Sidebar";
 import Header from "../component/Header";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { IoArrowBack } from "react-icons/io5";
 
 const CoursesForm = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -119,11 +120,17 @@ const CoursesForm = () => {
             hover:shadow-[0_30px_90px_rgba(0,0,0,0.35)]
             transition duration-300"
           >
-
-            <button className="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 active:scale-95 shadow-2xl transition-all duration-150" 
-            onClick={() => nav(`/Courses`)}
+            <button
+              onClick={() => nav("/Courses")}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium 
+             text-slate-700 bg-white border border-slate-300 rounded-lg 
+             shadow-sm hover:shadow-md 
+             hover:bg-slate-100 active:bg-slate-200 
+             hover:scale-105 active:scale-95 
+             transition-all duration-200 ease-in-out"
             >
-              back
+              <IoArrowBack className="text-base" />
+              Back
             </button>
             <div className="mb-6 text-center">
               <h1 className="text-3xl font-serif font-semibold bg-gradient-to-r from-slate-800 to-blue-600 bg-clip-text text-transparent">
