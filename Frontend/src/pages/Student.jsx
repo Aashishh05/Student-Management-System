@@ -7,6 +7,7 @@ import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import axios from "axios";
 import { useEffect } from "react";
+import { IoEye } from "react-icons/io5";
 
 const Student = () => {
   const nav = useNavigate();
@@ -19,7 +20,7 @@ const Student = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:5000/api/students/getStudent`
+        `http://localhost:5000/api/students/getStudent`,
       );
       setStudents(res.data.students || []);
       setLoading(false);
@@ -35,12 +36,12 @@ const Student = () => {
 
   const handleDelete = async (id) => {
     const confirmed = window.confirm(
-      "Are you sure you want to delete this student?"
+      "Are you sure you want to delete this student?",
     );
     if (!confirmed) return;
     try {
       const res = await axios.delete(
-        `http://localhost:5000/api/students/delete/${id}`
+        `http://localhost:5000/api/students/delete/${id}`,
       );
       if (res.status === 200) {
         alert("Student deleted successfully");
@@ -70,15 +71,11 @@ const Student = () => {
         <Sidebar isOpen={isOpen} />
       </div>
 
-      {/* Right side */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <Header toggleSidebar={() => setIsOpen(!isOpen)} />
 
-        {/* Only this scrolls */}
         <main className="flex-1 overflow-y-auto p-4 md:p-10 space-y-6 md:space-y-10">
           <div className="px-1 md:px-6 lg:px-10">
-
-            {/* Header banner */}
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-8 md:p-10 rounded-2xl bg-slate-200 shadow-2xl border-l-[12px] border-b-[6px] border-[#2249A3] gap-6">
               <div className="flex flex-col font-serif">
                 <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-800 to-blue-600 bg-clip-text text-transparent">
@@ -97,12 +94,13 @@ const Student = () => {
                   onClick={() => nav(`/StudentForm`)}
                 >
                   <MdPersonAddAlt1 className="text-2xl" />
-                  <span className="whitespace-nowrap">Register new Student</span>
+                  <span className="whitespace-nowrap">
+                    Register new Student
+                  </span>
                 </button>
               </div>
             </div>
 
-            {/* Stat cards */}
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-10 md:mt-16 gap-6">
               <div className="group rounded-2xl p-6 md:p-8 flex justify-between items-center bg-gradient-to-r from-slate-700 to-blue-600 text-white shadow-xl cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:brightness-110">
                 <div>
@@ -138,7 +136,10 @@ const Student = () => {
                     Pending Students
                   </h1>
                   <p className="mt-2 text-4xl md:text-5xl font-bold transition-all duration-300 group-hover:scale-110 origin-left">
-                    {students.filter((s) => s.payment_status === "Pending").length}
+                    {
+                      students.filter((s) => s.payment_status === "Pending")
+                        .length
+                    }
                   </p>
                 </div>
                 <div className="w-14 h-14 bg-white/20 rounded-xl backdrop-blur-md flex items-center justify-center border border-white/30 transition-all duration-500 group-hover:rotate-12">
@@ -147,7 +148,6 @@ const Student = () => {
               </div>
             </div>
 
-            {/* Table */}
             <div className="mt-10 w-full overflow-x-auto">
               <div className="min-w-[1000px]">
                 <table className="w-full table-fixed">
@@ -186,7 +186,10 @@ const Student = () => {
                   <tbody className="divide-y divide-slate-200">
                     {students.length === 0 ? (
                       <tr>
-                        <td colSpan="9" className="text-center py-6 text-gray-500">
+                        <td
+                          colSpan="9"
+                          className="text-center py-6 text-gray-500"
+                        >
                           No students found
                         </td>
                       </tr>
@@ -228,19 +231,32 @@ const Student = () => {
                               {student.payment_status}
                             </span>
                           </td>
-                          <td className="px-4 py-4 text-center text-sm font-medium">
-                            <div className="flex items-center justify-center gap-2">
+                          <td className="px-4 py-3 text-center text-sm font-medium">
+                            <div className="flex flex-col items-center gap-1 pt-5">
+                              <div className="flex items-center gap-2">
+                                <button
+                                  onClick={() =>
+                                    nav(`/StudentForm/${student._id}`)
+                                  }
+                                  className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105 cursor-pointer"
+                                >
+                                  <FiEdit /> <span>Edit</span>
+                                </button>
+                                <button
+                                  onClick={() => handleDelete(student._id)}
+                                  className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105 cursor-pointer "
+                                >
+                                  <RiDeleteBin6Line /> <span>Delete</span>
+                                </button>
+                              </div>
+
                               <button
-                                onClick={() => nav(`/StudentForm/${student._id}`)}
-                                className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105"
+                                className="rounded-xl p-1 text-2xl "
+                                onClick={() =>
+                                  nav(`/StudentDetails/${student._id}`)
+                                }
                               >
-                                <FiEdit /> <span>Edit</span>
-                              </button>
-                              <button
-                                onClick={() => handleDelete(student._id)}
-                                className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105"
-                              >
-                                <RiDeleteBin6Line /> <span>Delete</span>
+                                <IoEye />
                               </button>
                             </div>
                           </td>
@@ -251,7 +267,6 @@ const Student = () => {
                 </table>
               </div>
             </div>
-
           </div>
         </main>
       </div>

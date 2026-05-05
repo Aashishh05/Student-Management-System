@@ -8,7 +8,7 @@ import Dashboard from './pages/Dashboard'
 import Student from './pages/Student'
 import Teacher from './pages/Teacher'
 import Courses from './pages/Courses'
-
+import StudentDetails from './pages/StudentDetails'
 const App = () => {
   return (
     <div>
@@ -26,6 +26,7 @@ const App = () => {
         <Route path='/StudentForm/:id' element={<StudentForm /> } />
         <Route path='/TeacherForm/:id' element={<TeacherForm />} />
         <Route path='/CoursesForm/:id' element={<CoursesForm />} />
+        <Route path='/StudentDetails/:id' element={<StudentDetails />} /> 
       </Routes>
     </div>
   )
