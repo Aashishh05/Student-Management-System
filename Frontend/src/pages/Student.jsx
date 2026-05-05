@@ -251,7 +251,7 @@ const Student = () => {
                               </div>
 
                               <button
-                                className="rounded-xl p-1 text-2xl "
+                                className="rounded-xl p-1 text-xl "
                                 onClick={() =>
                                   nav(`/StudentDetails/${student._id}`)
                                 }
