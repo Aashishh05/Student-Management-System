@@ -198,13 +198,13 @@ const Courses = () => {
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
                             <div className="flex items-center justify-center gap-3">
                               <button
-                                className="flex gap-2 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105"
+                                className="flex gap-1 items-center px-2 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105"
                                 onClick={() => nav(`/CoursesForm/${course._id}`)}
                               >
                                 <FiEdit /> <span>Edit</span>
                               </button>
                               <button
-                                className="flex gap-2 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105"
+                                className="flex gap-1 items-center px-2 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105"
                                 onClick={() => handleDelete(course._id)}
                               >
                                 <RiDeleteBin6Line /> <span>Delete</span>
