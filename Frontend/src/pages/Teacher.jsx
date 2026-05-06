@@ -7,6 +7,7 @@ import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaUserTie } from "react-icons/fa";
 import axios from "axios";
+import { IoEye } from "react-icons/io5";
 
 const Teacher = () => {
   const nav = useNavigate();
@@ -20,7 +21,7 @@ const Teacher = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:5000/api/teachers/getTeacher`
+        `http://localhost:5000/api/teachers/getTeacher`,
       );
       setTeachers(res.data.teachers);
       setLoading(false);
@@ -32,12 +33,12 @@ const Teacher = () => {
 
   const handleDelete = async (id) => {
     const confirmed = window.confirm(
-      "Are you sure want to delete this teacher?"
+      "Are you sure want to delete this teacher?",
     );
     if (!confirmed) return;
     try {
       const res = await axios.delete(
-        `http://localhost:5000/api/teachers/delete/${id}`
+        `http://localhost:5000/api/teachers/delete/${id}`,
       );
       if (res.status === 200) {
         alert("Teacher deleted successfully!");
@@ -78,7 +79,6 @@ const Teacher = () => {
         {/* Only this scrolls */}
         <main className="flex-1 overflow-y-auto p-4 md:p-10 space-y-6 md:space-y-10">
           <div className="px-1 md:px-6 lg:px-10">
-
             {/* Header banner */}
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-8 md:p-10 rounded-2xl bg-slate-200 shadow-2xl border-l-[12px] border-b-[6px] border-[#2249A3] gap-6">
               <div className="flex flex-col font-serif">
@@ -98,7 +98,9 @@ const Teacher = () => {
                   onClick={() => nav(`/TeacherForm`)}
                 >
                   <MdPersonAddAlt1 className="text-2xl" />
-                  <span className="whitespace-nowrap">Register new Teacher</span>
+                  <span className="whitespace-nowrap">
+                    Register new Teacher
+                  </span>
                 </button>
               </div>
             </div>
@@ -190,20 +192,31 @@ const Teacher = () => {
                             {teacher.address}
                           </td>
                           <td className="px-3 py-4 text-center text-sm font-medium">
-                            <div className="flex items-center justify-center gap-2">
+                            <div className="flex items-center justify-center  gap-2">
                               <button
-                                className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105"
-                                onClick={() => nav(`/TeacherForm/${teacher._id}`)}
+                                className="flex gap-1 items-center px-2 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105"
+                                onClick={() =>
+                                  nav(`/TeacherForm/${teacher._id}`)
+                                }
                               >
                                 <FiEdit /> <span>Edit</span>
                               </button>
                               <button
-                                className="flex gap-1 items-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105"
+                                className="flex gap-1 items-center px-2 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-105"
                                 onClick={() => handleDelete(teacher._id)}
                               >
                                 <RiDeleteBin6Line /> <span>Delete</span>
                               </button>
                             </div>
+
+                            <button
+                              className="rounded-xl p-1 text-xl "
+                              onClick={() =>
+                                nav(`/TeacherDetails/${teacher._id}`)
+                              }
+                            >
+                              <IoEye />
+                            </button>
                           </td>
                         </tr>
                       ))
@@ -212,7 +225,6 @@ const Teacher = () => {
                 </table>
               </div>
             </div>
-
           </div>
         </main>
       </div>
