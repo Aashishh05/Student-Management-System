@@ -14,7 +14,7 @@ const Sidebar = ({ isOpen }) => {
         isOpen
           ? "w-80 p-6"
           : "w-0 p-0 overflow-hidden border-none shadow-none"
-      } transition-all duration-300 ease-in-out h-full bg-gradient-to-b from-slate-400/60 to-white/20 backdrop-blur-xl border-r border-slate-300/50 shadow-2xl shadow-indigo-900/90 space-y-4 relative`}
+      } transition-all duration-300 ease-in-out min-h-screen bg-gradient-to-b from-slate-400/60 to-white/20 backdrop-blur-xl border-r border-slate-300/50 shadow-2xl shadow-indigo-900/90 space-y-4 relative`}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/2 to-purple-500/1" />
       <div className="absolute top-20 right-4 w-12 h-12 bg-indigo-400/10 rounded-full blur-xl animate-pulse" />
