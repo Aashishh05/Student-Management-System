@@ -196,7 +196,6 @@ export const getAllCourse = async (req, res) => {
     const limit = parseInt(req.query.limit) || 2;
     const skip = (page - 1) * limit;
     const totalCourse = await Course.countDocuments();
-    console.log(totalCourse);
     const courses = await Course.find()
       .sort({ createdAt: -1 })
       .skip(skip)

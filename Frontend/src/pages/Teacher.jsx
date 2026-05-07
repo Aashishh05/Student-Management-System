@@ -25,7 +25,7 @@ const Teacher = () => {
       const res = await axios.get(
         `http://localhost:5000/api/teachers/getTeacher`,
         {
-          params: { page, limit: 3 },
+          params: { page, limit: 2 },
         },
       );
       setTotalpage(res.data.totalpages);
