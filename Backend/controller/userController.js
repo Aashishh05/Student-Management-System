@@ -20,11 +20,21 @@ export const createStudent = async (req, res) => {
 
 export const getAllStudents = async (req, res) => {
   try {
-    const students = await Student.find();
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 2;
+    const skip = (page - 1) * limit;
+    const totalTeacher = await Teacher.countDocuments();
+
+    const students = await Student.find()
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .skip(skip);
     res.status(200).json({
       success: true,
       message: "Student fetched successfully",
       students,
+      currentpage: page,
+      totalpages: Math.ceil(totalTeacher / limit),
     });
   } catch (error) {
     console.log("Error fetching student", error);
