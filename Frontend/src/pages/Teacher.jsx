@@ -16,13 +16,19 @@ const Teacher = () => {
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [totalpage, setTotalpage] = useState(1);
 
   const fetchTeacher = async () => {
     try {
       setLoading(true);
       const res = await axios.get(
         `http://localhost:5000/api/teachers/getTeacher`,
+        {
+          params: { page, limit: 3 },
+        },
       );
+      setTotalpage(res.data.totalpages);
       setTeachers(res.data.teachers);
       setLoading(false);
     } catch (error) {
@@ -52,7 +58,7 @@ const Teacher = () => {
 
   useEffect(() => {
     fetchTeacher();
-  }, []);
+  }, [page]);
 
   if (loading)
     return (
@@ -223,6 +229,30 @@ const Teacher = () => {
                     )}
                   </tbody>
                 </table>
+
+                <div>
+                  <div className="flex items-center justify-center gap-4 mt-6">
+                    <button
+                      disabled={page === 1}
+                      onClick={() => setPage((prev) => prev - 1)}
+                      className="px-4 py-2 bg-blue-500 text-white rounded-lg disabled:opacity-50"
+                    >
+                      Prev
+                    </button>
+
+                    <span className="font-semibold">
+                      Page {page} of {totalpage}
+                    </span>
+
+                    <button
+                      disabled={page === totalpage}
+                      onClick={() => setPage((prev) => prev + 1)}
+                      className="px-4 py-2 bg-blue-500 text-white rounded-lg disabled:opacity-50"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

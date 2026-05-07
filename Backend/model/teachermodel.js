@@ -36,7 +36,7 @@ const teacherSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-});
+},{timestamps:true});
 
 
 const Teacher = mongoose.model("Teacher",teacherSchema);

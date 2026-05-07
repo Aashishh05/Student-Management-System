@@ -104,11 +104,21 @@ export const createTeacher = async (req, res) => {
 
 export const getAllTeacher = async (req, res) => {
   try {
-    const teachers = await Teacher.find();
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 3;
+    const skip = (page - 1) * limit;
+    const totalTeacher = await Teacher.countDocuments();
+
+    const teachers = await Teacher.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
     res.status(200).json({
       success: true,
       message: "Teacher fetched successfully",
       teachers,
+      currentpage: page,
+      totalpages: Math.ceil(totalTeacher / limit),
     });
   } catch (error) {
     console.log("Error fetching teachers", error);
@@ -191,15 +201,13 @@ export const getAllCourse = async (req, res) => {
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Course Fetched Successfully",
-        courses,
-        currentpage: page,
-        totalpages: Math.ceil(totalCourse / limit),
-      });
+    res.status(200).json({
+      success: true,
+      message: "Course Fetched Successfully",
+      courses,
+      currentpage: page,
+      totalpages: Math.ceil(totalCourse / limit),
+    });
   } catch (error) {
     console.log("Error fetching course", error);
     res.status(500).json({ success: false, message: error.message });
