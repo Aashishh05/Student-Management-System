@@ -226,28 +226,51 @@ const Courses = () => {
                     )}
                   </tbody>
                 </table>
-                <div>
-                  <div className="flex items-center justify-center gap-4 mt-6">
-                    <button
-                      disabled={page === 1}
-                      onClick={() => setPage((prev) => prev - 1)}
-                      className="px-4 py-2 bg-blue-500 text-white rounded-lg disabled:opacity-50"
-                    >
-                      Prev
-                    </button>
+                <div className="flex items-center justify-center mt-6 mb-6 gap-1 flex-wrap">
+                  <button
+                    disabled={page === 1}
+                    onClick={() => setPage((prev) => prev - 1)}
+                    className={`w-7 h-7 rounded border-none text-s font-medium transition-all
+      ${
+        page === 1
+          ? "bg-slate-200 text-slate-400 cursor-not-allowed"
+          : "bg-white text-blue-600 hover:bg-blue-500 hover:text-white"
+      }`}
+                  >
+                    ‹
+                  </button>
 
-                    <span className="font-semibold">
-                      Page {page} of {totalpage}
-                    </span>
+                  {[...Array(totalpage)].map((_, index) => {
+                    const pageNumber = index + 1;
 
-                    <button
-                      disabled={page === totalpage}
-                      onClick={() => setPage((prev) => prev + 1)}
-                      className="px-4 py-2 bg-blue-500 text-white rounded-lg disabled:opacity-50"
-                    >
-                      Next
-                    </button>
-                  </div>
+                    return (
+                      <button
+                        key={pageNumber}
+                        onClick={() => setPage(pageNumber)}
+                        className={`w-7 h-7 rounded bordedr-none text-s font-medium transition-all
+          ${
+            page === pageNumber
+              ? "bg-blue-600 text-white"
+              : "bg-white text-blue-600 hover:bg-blue-100"
+          }`}
+                      >
+                        {pageNumber}
+                      </button>
+                    );
+                  })}
+
+                  <button
+                    disabled={page === totalpage}
+                    onClick={() => setPage((prev) => prev + 1)}
+                    className={`w-7 h-7 rounded border-none text-s font-medium transition-all
+      ${
+        page === totalpage
+          ? "bg-slate-200 text-slate-400 cursor-not-allowed"
+          : "bg-white text-blue-600 hover:bg-blue-500 hover:text-white"
+      }`}
+                  >
+                    ›
+                  </button>
                 </div>
               </div>
             </div>
