@@ -15,13 +15,22 @@ const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [totalpage, setTotalpage] = useState(1);
 
   const fetchCourse = async () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:5000/api/courses/getCourse`
+        `http://localhost:5000/api/courses/getCourse`,
+        {
+          params: {
+            page,
+            limit: 2,
+          },
+        },
       );
+      setTotalpage(res.data.totalpages);
       setCourses(res.data.courses);
       setLoading(false);
     } catch (error) {
@@ -34,7 +43,7 @@ const Courses = () => {
     if (!confirm) return;
     try {
       const res = await axios.delete(
-        `http://localhost:5000/api/courses/delete/${id}`
+        `http://localhost:5000/api/courses/delete/${id}`,
       );
       if (res.status === 200) {
         alert("Course deleted successfully");
@@ -48,7 +57,7 @@ const Courses = () => {
 
   useEffect(() => {
     fetchCourse();
-  }, []);
+  }, [page]);
 
   if (loading)
     return (
@@ -82,7 +91,6 @@ const Courses = () => {
         {/* Only this scrolls */}
         <main className="flex-1 overflow-y-auto p-4 md:p-10 space-y-6 md:space-y-10">
           <div className="px-1 md:px-6 lg:px-10">
-
             {/* Header banner */}
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-8 md:p-10 rounded-2xl bg-slate-200 shadow-2xl border-l-[12px] border-b-[6px] border-[#2249A3] gap-6">
               <div className="flex flex-col font-serif">
@@ -199,7 +207,9 @@ const Courses = () => {
                             <div className="flex items-center justify-center gap-3">
                               <button
                                 className="flex gap-1 items-center px-2 py-2 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-105"
-                                onClick={() => nav(`/CoursesForm/${course._id}`)}
+                                onClick={() =>
+                                  nav(`/CoursesForm/${course._id}`)
+                                }
                               >
                                 <FiEdit /> <span>Edit</span>
                               </button>
@@ -216,9 +226,31 @@ const Courses = () => {
                     )}
                   </tbody>
                 </table>
+                <div>
+                  <div className="flex items-center justify-center gap-4 mt-6">
+                    <button
+                      disabled={page === 1}
+                      onClick={() => setPage((prev) => prev - 1)}
+                      className="px-4 py-2 bg-blue-500 text-white rounded-lg disabled:opacity-50"
+                    >
+                      Prev
+                    </button>
+
+                    <span className="font-semibold">
+                      Page {page} of {totalpage}
+                    </span>
+
+                    <button
+                      disabled={page === totalpage}
+                      onClick={() => setPage((prev) => prev + 1)}
+                      className="px-4 py-2 bg-blue-500 text-white rounded-lg disabled:opacity-50"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-
           </div>
         </main>
       </div>

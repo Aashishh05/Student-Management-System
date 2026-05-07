@@ -112,7 +112,7 @@ const Dashboard = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5">
                 <div
-                  className="bg-gradient-to-r from-slate-700 to-blue-600 rounded-2xl p-5 cursor-pointer hover:scale-110 transition-all duration-300 shadow-xl flex justify-between items-center text-white active:scale-95"
+                  className="bg-gradient-to-r from-slate-700 to-blue-600 rounded-2xl p-8 cursor-pointer hover:scale-110 transition-all duration-300 shadow-xl flex justify-between items-center text-white active:scale-95"
                   onClick={() => nav(`/Student`)}
                 >
                   <div>
@@ -120,9 +120,7 @@ const Dashboard = () => {
                       Students
                     </h2>
                   </div>
-                  <div className="w-12 h-12 bg-white/25 rounded-xl flex items-center justify-center border border-white/30 shrink-0">
-                    <div className="w-7 h-7 bg-white rounded-lg shadow-sm"></div>
-                  </div>
+                 
                 </div>
 
                 <div
@@ -134,9 +132,7 @@ const Dashboard = () => {
                       Teachers
                     </h2>
                   </div>
-                  <div className="w-12 h-12 bg-white/25 rounded-xl flex items-center justify-center border border-white/30 shrink-0">
-                    <div className="w-7 h-7 bg-white rounded-lg shadow-sm"></div>
-                  </div>
+                 
                 </div>
 
                 <div
@@ -148,9 +144,7 @@ const Dashboard = () => {
                       Courses
                     </h2>
                   </div>
-                  <div className="w-12 h-12 bg-white/25 rounded-xl flex items-center justify-center border border-white/30 shrink-0">
-                    <div className="w-7 h-7 bg-white rounded-lg shadow-sm"></div>
-                  </div>
+                 
                 </div>
               </div>
             </div>

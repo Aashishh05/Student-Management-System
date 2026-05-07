@@ -23,7 +23,7 @@ const courseSchema = new mongoose.Schema({
     enum: ["active", "inactive", "", null],
     default: null,
   },
-});
+},{timestamps:true});
 
 const Course = mongoose.model("Course", courseSchema);
 

@@ -182,10 +182,24 @@ export const createCourse = async (req, res) => {
 
 export const getAllCourse = async (req, res) => {
   try {
-    const courses = await Course.find();
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 2;
+    const skip = (page - 1) * limit;
+    const totalCourse = await Course.countDocuments();
+    console.log(totalCourse);
+    const courses = await Course.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
     res
       .status(200)
-      .json({ success: true, message: "Course Fetched Successfully", courses });
+      .json({
+        success: true,
+        message: "Course Fetched Successfully",
+        courses,
+        currentpage: page,
+        totalpages: Math.ceil(totalCourse / limit),
+      });
   } catch (error) {
     console.log("Error fetching course", error);
     res.status(500).json({ success: false, message: error.message });
@@ -234,13 +248,11 @@ export const deleteCourseByID = async (req, res) => {
     if (!deleteCourse) {
       return res.status(404).json({ message: "Course not found" });
     }
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Course deleted successfully",
-        deleteCourse,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Course deleted successfully",
+      deleteCourse,
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
