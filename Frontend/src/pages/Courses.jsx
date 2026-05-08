@@ -75,7 +75,6 @@ const Courses = () => {
 
   return (
     <div className="flex h-screen overflow-hidden bg-slate-300">
-      {/* Sidebar — locked, never scrolls */}
       <div
         className={`${
           isOpen ? "w-80" : "w-0"
@@ -84,14 +83,11 @@ const Courses = () => {
         <Sidebar isOpen={isOpen} />
       </div>
 
-      {/* Right side */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <Header toggleSidebar={() => setIsOpen(!isOpen)} />
 
-        {/* Only this scrolls */}
         <main className="flex-1 overflow-y-auto p-4 md:p-10 space-y-6 md:space-y-10">
           <div className="px-1 md:px-6 lg:px-10">
-            {/* Header banner */}
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-8 md:p-10 rounded-2xl bg-slate-200 shadow-2xl border-l-[12px] border-b-[6px] border-[#2249A3] gap-6">
               <div className="flex flex-col font-serif">
                 <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-800 to-blue-600 bg-clip-text text-transparent">
@@ -115,7 +111,6 @@ const Courses = () => {
               </div>
             </div>
 
-            {/* Table */}
             <div className="mt-10 w-full overflow-x-auto">
               <div className="min-w-[900px]">
                 <div className="w-full overflow-hidden rounded-t-3xl">
@@ -183,8 +178,25 @@ const Courses = () => {
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 text-center">
                             {course.Title}
                           </td>
-                          <td className="px-6 py-4 text-sm text-gray-600 text-center max-w-[200px] truncate">
-                            {course.Description}
+                          <td className="px-6 py-4 text-sm text-center max-w-[200px]">
+                            <div className="relative group">
+                              <p className="truncate text-gray-600 cursor-pointer">
+                                {course.Description}
+                              </p>
+
+                              <div
+                                className="
+           absolute z-50 hidden group-hover:block
+        bg-slate-600 text-white text-xs
+        px-3 py-2 rounded-lg shadow-xl
+        w-max max-w-[300px]
+        left-1/2 -translate-x-1/2 top-8
+        break-all transition-all duration-300
+      "
+                              >
+                                {course.Description}
+                              </div>
+                            </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
                             {course.Duration}

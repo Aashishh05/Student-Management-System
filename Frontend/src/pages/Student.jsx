@@ -211,8 +211,27 @@ const Student = () => {
                           <td className="px-4 py-4 text-center text-sm font-medium text-gray-800">
                             {`${student.first_name} ${student.last_name}`}
                           </td>
-                          <td className="px-4 py-4 text-center text-sm text-gray-600 break-all">
-                            {student.email}
+                          <td className="px-4 py-4 text-center text-sm max-w-[220px]">
+                            <div className="relative group">
+                              {/* Truncated Email */}
+                              <p className="truncate text-gray-600 cursor-pointer">
+                                {student.email}
+                              </p>
+
+                              {/* Hover Full Email */}
+                              <div
+                                className="
+        absolute z-50 hidden group-hover:block
+        bg-slate-800 text-white text-xs
+        px-3 py-2 rounded-lg shadow-xl
+        w-max max-w-[300px]
+        left-1/2 -translate-x-1/2 top-8
+        break-all transition-all duration-300
+      "
+                              >
+                                {student.email}
+                              </div>
+                            </div>
                           </td>
                           <td className="px-4 py-4 text-center text-sm text-gray-600">
                             {student.gender}
