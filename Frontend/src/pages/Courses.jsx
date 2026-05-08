@@ -178,7 +178,7 @@ const Courses = () => {
                           className="hover:bg-sky-100/50 transition-all duration-300"
                         >
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-slate-900 text-center">
-                            {index + 1}
+                            {(page - 1) * 2 + index + 1}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 text-center">
                             {course.Title}

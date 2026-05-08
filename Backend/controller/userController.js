@@ -23,10 +23,10 @@ export const getAllStudents = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 2;
     const skip = (page - 1) * limit;
-    const totalTeacher = await Teacher.countDocuments();
+    const totalStudents = await Student.countDocuments();
 
     const students = await Student.find()
-      .sort({ createdAt: -1 })
+      .sort({ createdAt: -1, _id: -1 })
       .limit(limit)
       .skip(skip);
     res.status(200).json({
@@ -34,7 +34,7 @@ export const getAllStudents = async (req, res) => {
       message: "Student fetched successfully",
       students,
       currentpage: page,
-      totalpages: Math.ceil(totalTeacher / limit),
+      totalpages: Math.ceil(totalStudents / limit),
     });
   } catch (error) {
     console.log("Error fetching student", error);
@@ -115,12 +115,12 @@ export const createTeacher = async (req, res) => {
 export const getAllTeacher = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 3;
+    const limit = parseInt(req.query.limit) || 2;
     const skip = (page - 1) * limit;
     const totalTeacher = await Teacher.countDocuments();
 
     const teachers = await Teacher.find()
-      .sort({ createdAt: -1 })
+      .sort({ createdAt: -1, _id: -1 })
       .skip(skip)
       .limit(limit);
     res.status(200).json({
@@ -207,7 +207,7 @@ export const getAllCourse = async (req, res) => {
     const skip = (page - 1) * limit;
     const totalCourse = await Course.countDocuments();
     const courses = await Course.find()
-      .sort({ createdAt: -1 })
+      .sort({ createdAt: -1, _id: -1 })
       .skip(skip)
       .limit(limit);
     res.status(200).json({

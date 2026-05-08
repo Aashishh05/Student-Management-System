@@ -177,7 +177,7 @@ const Teacher = () => {
                           className="hover:bg-sky-100/50 transition-all duration-300"
                         >
                           <td className="px-4 py-4 text-center text-sm font-bold text-slate-900">
-                            {index + 1}
+                            {(page - 1) * 2 + index + 1}
                           </td>
                           <td className="px-3 py-4 text-center text-sm font-medium text-gray-800">
                             {`${teacher.first_name} ${teacher.last_name}`}
