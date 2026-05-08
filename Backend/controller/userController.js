@@ -1,276 +1,101 @@
-import Course from "../model/coursemodel.js";
-import Student from "../model/studentmodel.js";
-import Teacher from "../model/teachermodel.js";
+import User from "../model/usermodel.js";
 
-// Student
-
-export const createStudent = async (req, res) => {
+export const createUser = async (req, res) => {
   try {
-    const student = await Student.create(req.body);
+    const user = await User.create(req.body);
     res.status(201).json({
       success: true,
-      message: "Student Created Successfully",
-      student,
+      message: "User created successfully",
+      user,
     });
   } catch (error) {
-    console.log("Error creating student", error);
-    res.status(400).json({ success: false, message: error.message });
+    console.log("Error creating user", error);
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
-export const getAllStudents = async (req, res) => {
+export const getAllUser = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 2;
-    const skip = (page - 1) * limit;
-    const totalStudents = await Student.countDocuments();
-
-    const students = await Student.find()
-      .sort({ createdAt: -1, _id: -1 })
-      .limit(limit)
-      .skip(skip);
+    const users = await User.find();
     res.status(200).json({
       success: true,
-      message: "Student fetched successfully",
-      students,
-      currentpage: page,
-      totalpages: Math.ceil(totalStudents / limit),
+      message: "User fetched successfully",
+      users,
     });
   } catch (error) {
-    console.log("Error fetching student", error);
-    res.status(500).json({ success: false, message: error.message });
+    console.log("Error fetching user", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
-export const getStudentByID = async (req, res) => {
+export const getUserByID = async (req, res) => {
   const { id } = req.params;
   try {
-    const student = await Student.findById(id);
-    if (!student) {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    res
+      .status(200)
+      .json({ success: true, message: "User found successfully", user });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const updateUserByID = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updateUser = await User.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!updateUser) {
       return res
         .status(404)
-        .json({ success: false, message: "Student not found" });
-    }
-    res
-      .status(200)
-      .json({ success: true, message: "Student found successfully", student });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-};
-
-export const updateStudentByID = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const updateStudent = await Student.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    if (!updateStudent) {
-      return res.status(404).json({ error: "Student not found" });
+        .json({ success: false, message: "User not found" });
     }
     res.status(200).json({
       success: true,
-      message: "Student updated successfully",
-      updateStudent,
+      message: "User updated successfully",
+      updateUser,
     });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
   }
 };
 
-export const deleteStudentByID = async (req, res) => {
+export const deleteUserByID = async (req, res) => {
   const { id } = req.params;
   try {
-    const deleteStudent = await Student.findByIdAndDelete(id);
-    if (!deleteStudent) {
-      return res.status(404).json({ error: "Student not found" });
+    const deleteUser = await User.findByIdAndDelete(id);
+    if (!deleteUser) {
+      return res.status(404).json({
+        success: false,
+        error: "User not found",
+      });
     }
     res.status(200).json({
       success: true,
-      message: "Student deleted successfully",
-      deleteStudent,
+      message: "User deleted successfully",
+      deleteUser,
     });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-};
-
-// Teacher
-
-export const createTeacher = async (req, res) => {
-  try {
-    const teacher = await Teacher.create(req.body);
-    res.status(201).json({
-      success: true,
-      message: "Teacher created successfully",
-      teacher,
+    res.status(500).json({
+      success: false,
+      error: error.message,
     });
-  } catch (error) {
-    console.log("Error creating teacher", error);
-    res.status(400).json({ success: false, error: error.message });
-  }
-};
-
-export const getAllTeacher = async (req, res) => {
-  try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 2;
-    const skip = (page - 1) * limit;
-    const totalTeacher = await Teacher.countDocuments();
-
-    const teachers = await Teacher.find()
-      .sort({ createdAt: -1, _id: -1 })
-      .skip(skip)
-      .limit(limit);
-    res.status(200).json({
-      success: true,
-      message: "Teacher fetched successfully",
-      teachers,
-      currentpage: page,
-      totalpages: Math.ceil(totalTeacher / limit),
-    });
-  } catch (error) {
-    console.log("Error fetching teachers", error);
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-export const getTeacherByID = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const teacher = await Teacher.findById(id);
-    if (!teacher) {
-      return res.status(404).json({ message: "Teacher not found" });
-    }
-    res
-      .status(200)
-      .json({ success: true, message: "Teacher found successfully", teacher });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-export const updateTeacherByID = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const updateTeacher = await Teacher.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    if (!updateTeacher) {
-      return res.status(404).json({ message: "Teacher not found" });
-    }
-    res.status(200).json({
-      success: true,
-      message: "Teacher updated successfully",
-      updateTeacher,
-    });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-export const deleteTeacherByID = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const deleteTeacher = await Teacher.findByIdAndDelete(id);
-    if (!deleteTeacher) {
-      return res.status(404).json({ error: "Teacher not found" });
-    }
-    res.status(200).json({
-      success: true,
-      message: "Teacher deleted successfully",
-      deleteTeacher,
-    });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-// Course
-
-export const createCourse = async (req, res) => {
-  try {
-    const course = await Course.create(req.body);
-    res.status(201).json({ success: true, message: "Course created", course });
-  } catch (error) {
-    console.log("Error creating course", error);
-    res.status(400).json({ success: false, message: error.message });
-  }
-};
-
-export const getAllCourse = async (req, res) => {
-  try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 2;
-    const skip = (page - 1) * limit;
-    const totalCourse = await Course.countDocuments();
-    const courses = await Course.find()
-      .sort({ createdAt: -1, _id: -1 })
-      .skip(skip)
-      .limit(limit);
-    res.status(200).json({
-      success: true,
-      message: "Course Fetched Successfully",
-      courses,
-      currentpage: page,
-      totalpages: Math.ceil(totalCourse / limit),
-    });
-  } catch (error) {
-    console.log("Error fetching course", error);
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-export const getCourseByID = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const course = await Course.findById(id);
-    if (!course) {
-      return res.status(404).json({ message: "Course not found" });
-    }
-    res
-      .status(200)
-      .json({ success: true, message: "Course found successfully", course });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-export const updateCourseByID = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const updateCourse = await Course.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    if (!updateCourse) {
-      return res.status(404).json({ message: "Course not found" });
-    }
-    res.status(200).json({
-      success: true,
-      message: "Course updated successfully",
-      updateCourse,
-    });
-  } catch (error) {
-    res.status(400).json({ success: false, message: error.message });
-  }
-};
-
-export const deleteCourseByID = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const deleteCourse = await Course.findByIdAndDelete(id);
-    if (!deleteCourse) {
-      return res.status(404).json({ message: "Course not found" });
-    }
-    res.status(200).json({
-      success: true,
-      message: "Course deleted successfully",
-      deleteCourse,
-    });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
   }
 };
