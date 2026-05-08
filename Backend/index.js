@@ -4,6 +4,7 @@ import connectDB from "./config/db.js";
 import studentRoutes from "./routes/studentRoutes.js"
 import teacherRoutes from "./routes/teacherRoutes.js"
 import coursesRoutes from "./routes/coursesRoutes.js"
+import userRoutes from "./routes/userRoutes.js"
 import cors from "cors";
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/students",studentRoutes);
 app.use("/api/teachers",teacherRoutes);
 app.use("/api/courses",coursesRoutes);
+app.use("/api/users",userRoutes);
 
 
 app.get("/", (req, res) => {
