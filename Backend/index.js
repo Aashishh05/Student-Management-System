@@ -20,7 +20,6 @@ app.use("/api/teachers",teacherRoutes);
 app.use("/api/courses",coursesRoutes);
 app.use("/api/users",userRoutes);
 
-
 app.get("/", (req, res) => {
   res.json({ message: "API is running......" });
 });

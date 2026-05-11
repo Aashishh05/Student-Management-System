@@ -1,101 +1,101 @@
+import bcrypt from "bcrypt";
 import User from "../model/usermodel.js";
 
-export const createUser = async (req, res) => {
+export const register = async (req, res) => {
   try {
-    const user = await User.create(req.body);
-    res.status(201).json({
+    const { first_name, last_name, gender, phone, email, address, password } =
+      req.body;
+
+    if (!first_name || !last_name || !gender || !phone || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing Details",
+      });
+    }
+
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(409).json({
+        success: false,
+        message: "User already exists",
+      });
+    }
+
+    const hashpassword = await bcrypt.hash(password, 10);
+
+    const user = await User.create({
+      first_name,
+      last_name,
+      gender,
+      phone,
+      email,
+      address,
+      password: hashpassword,
+    });
+
+    return res.status(201).json({
       success: true,
-      message: "User created successfully",
+      message: "User registered successfully",
       user,
     });
   } catch (error) {
-    console.log("Error creating user", error);
-    res.status(400).json({
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
   }
 };
 
-export const getAllUser = async (req, res) => {
+export const login = async (req, res) => {
   try {
-    const users = await User.find();
-    res.status(200).json({
-      success: true,
-      message: "User fetched successfully",
-      users,
-    });
-  } catch (error) {
-    console.log("Error fetching user", error);
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
+    const { email, password } = req.body;
 
-export const getUserByID = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const user = await User.findById(id);
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Email and password are required",
+      });
+    }
+
+    const user = await User.findOne({ email });
+
     if (!user) {
       return res.status(404).json({
         success: false,
         message: "User not found",
       });
     }
-    res
-      .status(200)
-      .json({ success: true, message: "User found successfully", user });
+
+    const checkPassword = await bcrypt.compare(password);
+
+    if (!checkPassword) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid password",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Login successful",
+      user,
+    });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
   }
 };
 
-export const updateUserByID = async (req, res) => {
-  const { id } = req.params;
+export const logout = async (req, res) => {
   try {
-    const updateUser = await User.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    if (!updateUser) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
-    }
     res.status(200).json({
       success: true,
-      message: "User updated successfully",
-      updateUser,
+      message: "Logged out successfully",
     });
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
-  }
-};
-
-export const deleteUserByID = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const deleteUser = await User.findByIdAndDelete(id);
-    if (!deleteUser) {
-      return res.status(404).json({
-        success: false,
-        error: "User not found",
-      });
-    }
-    res.status(200).json({
-      success: true,
-      message: "User deleted successfully",
-      deleteUser,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message,
-    });
+    res.status(500).json({success:false,message:error.message || "Logout failed"})
   }
 };
