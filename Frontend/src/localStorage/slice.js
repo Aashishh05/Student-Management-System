@@ -1,8 +1,8 @@
-export const setItem = (post) => {
+export const setPosted = (post) => {
   localStorage.setItem("Posted", JSON.stringify(post));
 };
 
-export const getItem = () => {
+export const getPosted = () => {
   const data = localStorage.getItem("Posted");
   return data ? JSON.parse(data) : [];
 };

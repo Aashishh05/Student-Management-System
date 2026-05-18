@@ -1,10 +1,40 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { IoMenuSharp, IoSearch } from "react-icons/io5";
+import axios from "axios";
 
 const Header = ({ toggleSidebar }) => {
+  const nav = useNavigate();
   const [dropdown, setDropdown] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+
+  const handleLogout = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        `http://localhost:5000/api/users/logout`,
+        {},
+        { withCredentials: true },
+      );
+      localStorage.removeItem("token");
+      nav(`/LoginForm`);
+    } catch (error) {
+      console.log("Logout Error!", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-lg font-semibold text-gray-600 animate-pulse">
+          Loading......
+        </p>
+      </div>
+    );
 
   return (
     <header className="sticky w-full px-10 py-8 bg-gradient-to-r from-slate-400/60 to-white/50 backdrop-blur-xl shadow-2xl shadow-indigo-900/50 border-r border-none transition-colors font-serif">
@@ -30,7 +60,6 @@ const Header = ({ toggleSidebar }) => {
           <IoSearch className="text-xl text-slate-500 mr-2" />
           <input
             type="search"
-            
             placeholder="Search here..."
             className="bg-transparent outline-none text-slate-700 placeholder-slate-400 w-70"
           />
@@ -46,7 +75,9 @@ const Header = ({ toggleSidebar }) => {
 
           {dropdown && (
             <div className="absolute right-0 mt-3 w-40 bg-white/90 backdrop-blur-md border border-white/50 rounded-2xl shadow-xl p-3 animate-in fade-in zoom-in duration-200">
-              <button className="w-full text-left px-4 py-2 text-slate-700 hover:bg-indigo-500 hover:text-indigo-100 rounded-xl transition-all">
+              <button className="w-full text-left px-4 py-2 text-slate-700 hover:bg-indigo-500 hover:text-indigo-100 rounded-xl transition-all"
+              onClick={handleLogout}
+              >
                 Logout
               </button>
             </div>
