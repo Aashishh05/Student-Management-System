@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
@@ -5,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const nav = useNavigate();
+  const [login, setLogin] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -18,10 +21,27 @@ const LoginForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(formData);
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        `http://localhost:5000/api/users/login`,
+        formData,
+        { withCredentials: true },
+      );
+      console.log("Login successful");
+      setLogin(res.data.user);
+
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      nav("/Dashboard");
+    } catch (error) {
+      console.log("Login error!", error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
