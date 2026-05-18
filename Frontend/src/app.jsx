@@ -10,6 +10,8 @@ import Teacher from './pages/Teacher'
 import Courses from './pages/Courses'
 import StudentDetails from './pages/StudentDetails'
 import TeacherDetails from './pages/TeacherDetails'
+import LoginForm from './pages/LoginForm'
+import RegisterForm from './pages/RegisterForm'
 const App = () => {
   return (
     <div>
@@ -29,6 +31,8 @@ const App = () => {
         <Route path='/CoursesForm/:id' element={<CoursesForm />} />
         <Route path='/StudentDetails/:id' element={<StudentDetails />} /> 
         <Route path='/TeacherDetails/:id' element={<TeacherDetails />} />
+        <Route path='/LoginForm' element={<LoginForm/>} />
+        <Route path='/RegisterForm' element={<RegisterForm />} />
       </Routes>
     </div>
   )
