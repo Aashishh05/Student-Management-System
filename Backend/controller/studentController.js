@@ -28,6 +28,7 @@ export const getAllStudents = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Student fetched successfully",
+      totalStudents,
       students,
       currentpage: page,
       totalpages: Math.ceil(totalStudents / limit),

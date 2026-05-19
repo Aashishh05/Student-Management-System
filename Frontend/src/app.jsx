@@ -16,8 +16,11 @@ const App = () => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<MainLayout />} />
-        <Route index element={<Dashboard />} />
+
+        <Route  element={<MainLayout />} />
+        <Route path="/" element={<LoginForm />} />
+
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/StudentForm" element={<StudentForm />} />
         <Route path="/TeacherForm" element={<TeacherForm />} />
         <Route path="/CoursesForm" element={<CoursesForm />} />
@@ -30,7 +33,6 @@ const App = () => {
         <Route path="/CoursesForm/:id" element={<CoursesForm />} />
         <Route path="/StudentDetails/:id" element={<StudentDetails />} />
         <Route path="/TeacherDetails/:id" element={<TeacherDetails />} />
-        <Route path="/LoginForm" element={<LoginForm />} />
         <Route path="/RegisterForm" element={<RegisterForm />} />
       </Routes>
     </div>

@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const [students, setStudents] = useState([]);
-  const [teachers, setTeachers] = useState([]);
-  const [courses, setCourses] = useState([]);
+
+  const [totalStudents, setTotalStudents] = useState(0);
+  const [totalCourses, setTotalCourses] = useState(0);
+  const [totalTeachers, setTotalTeachers] = useState(0);
   const [loading, setLoading] = useState(false);
 
   const nav = useNavigate();
@@ -21,9 +22,9 @@ const Dashboard = () => {
         const teacher_res = await api.get("/teachers/getTeacher");
         const course_res = await api.get("/courses/getCourse");
 
-        setStudents(student_res.data.students);
-        setTeachers(teacher_res.data.teachers);
-        setCourses(course_res.data.courses);
+        setTotalStudents(student_res.data.totalStudents);
+        setTotalTeachers(teacher_res.data.totalTeacher);
+        setTotalCourses(course_res.data.totalCourse);
       } catch (error) {
         console.log("Error fetching students, teachers or courses", error);
         alert("Failed to load students, teachers or courses");
@@ -61,7 +62,7 @@ const Dashboard = () => {
                       Students
                     </h2>
                     <p className="text-5xl font-bold mt-1 font-mono">
-                      {students.length}
+                      {totalStudents}
                     </p>
                   </div>
                   <div className="w-12 h-12 bg-white/25 rounded-xl flex items-center justify-center border border-white/30 shrink-0">
@@ -75,7 +76,7 @@ const Dashboard = () => {
                       Teachers
                     </h2>
                     <p className="text-5xl font-bold mt-1 font-mono">
-                      {teachers.length}
+                      {totalTeachers}
                     </p>
                   </div>
                   <div className="w-12 h-12 bg-white/25 rounded-xl flex items-center justify-center border border-white/30 shrink-0">
@@ -89,7 +90,7 @@ const Dashboard = () => {
                       Courses
                     </h2>
                     <p className="text-5xl font-bold mt-1 font-mono">
-                      {courses.length}
+                      {totalCourses}
                     </p>
                   </div>
                   <div className="w-12 h-12 bg-white/25 rounded-xl flex items-center justify-center border border-white/30 shrink-0">

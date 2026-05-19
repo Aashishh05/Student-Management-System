@@ -30,6 +30,7 @@ export const getAllTeacher = async (req, res) => {
       success: true,
       message: "Teacher fetched successfully",
       teachers,
+      totalTeacher,
       currentpage: page,
       totalpages: Math.ceil(totalTeacher / limit),
     });

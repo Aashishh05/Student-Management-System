@@ -24,6 +24,7 @@ export const getAllCourse = async (req, res) => {
       success: true,
       message: "Course Fetched Successfully",
       courses,
+      totalCourse,
       currentpage: page,
       totalpages: Math.ceil(totalCourse / limit),
     });
