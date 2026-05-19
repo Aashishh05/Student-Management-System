@@ -7,15 +7,7 @@ export const register = async (req, res) => {
     const { first_name, last_name, gender, phone, email, address, password } =
       req.body;
 
-    if (
-      !first_name ||
-      !last_name ||
-      !gender ||
-      !phone ||
-      !email ||
-      !address ||
-      !password
-    ) {
+    if (!first_name || !last_name || !phone || !email || !password) {
       return res.status(400).json({
         success: false,
         message: "Missing Details",
@@ -88,17 +80,17 @@ export const login = async (req, res) => {
     const token = generateToken(user._id, process.env.secretKey, "7d");
     console.log(token);
     res.cookie("token", token, {
-      httpOnly:true,
-      secure:"production",
-      sameSite:"strict",
-      maxage:7*24*60*60*1000 //7days
+      httpOnly: true,
+      secure: "production",
+      sameSite: "strict",
+      maxage: 7 * 24 * 60 * 60 * 1000, //7days
     });
 
     return res.status(200).json({
       success: true,
       message: "Login successful",
       user,
-      token
+      token,
     });
   } catch (error) {
     return res.status(500).json({
@@ -110,11 +102,11 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    res.clearCookie("token",{
-      httpOnly:true,
-      secure:"production",
-      sameSite:"strict",
-    })
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: "production",
+      sameSite: "strict",
+    });
     res.status(200).json({
       success: true,
       message: "Logged out successfully",

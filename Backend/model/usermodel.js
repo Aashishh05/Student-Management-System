@@ -14,12 +14,6 @@ const userSchema = new mongoose.Schema(
       default: null,
     },
 
-    gender: {
-      type: String,
-      enum: ["Male", "Female", "Others"],
-      default: null,
-    },
-
     phone: {
       type: String,
       required: true,
@@ -35,17 +29,10 @@ const userSchema = new mongoose.Schema(
       default: null,
     },
 
-    address: {
-      type: String,
-      default: null,
-      trim: true,
-    },
-
     password: {
       type: String,
       required: true,
     },
-
   },
   {
     timestamps: true,

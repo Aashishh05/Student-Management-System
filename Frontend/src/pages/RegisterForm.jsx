@@ -3,9 +3,14 @@ import { MdEmail, MdPhone } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { IoLocationSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-
+import api from "../api/api.js";
 const RegisterForm = () => {
   const nav = useNavigate();
+
+  const [register, setRegister] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -21,10 +26,33 @@ const RegisterForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const ResetForm = () => {
+    setFormData({
+      first_name: "",
+      last_name: "",
+      phone: "",
+      email: "",
+      password: "",
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(formData);
+    setLoading(true);
+    try {
+      const res = await api.post(`/users/register`, formData);
+      setRegister(res.data.user);
+      setSuccessMessage("User registered successfully!");
+      ResetForm();
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 1000);
+    } catch (error) {
+      console.log("Error registering user!", error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -33,7 +61,13 @@ const RegisterForm = () => {
         <h1 className="text-3xl font-serif font-bold text-center mb-6">
           Register Here
         </h1>
-
+        {successMessage && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+            <div className="bg-green-500 text-white px-10 py-6 rounded-2xl shadow-2xl text-2xl font-bold font-serif animate-ping">
+              {successMessage}
+            </div>
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="flex items-center gap-2 mb-2 font-serif font-medium text-gray-700">
