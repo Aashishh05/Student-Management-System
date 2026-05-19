@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../component/Sidebar";
 import Header from "../component/Header";
-import axios from "axios";
+import api from "../api/api.js";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
@@ -17,15 +17,9 @@ const Dashboard = () => {
     const fetch_Students_Teachers_Courses = async () => {
       setLoading(true);
       try {
-        const student_res = await axios.get(
-          "http://localhost:5000/api/students/getStudent",
-        );
-        const teacher_res = await axios.get(
-          "http://localhost:5000/api/teachers/getTeacher",
-        );
-        const course_res = await axios.get(
-          "http://localhost:5000/api/courses/getCourse",
-        );
+        const student_res = await api.get("/students/getStudent");
+        const teacher_res = await api.get("/teachers/getTeacher");
+        const course_res = await api.get("/courses/getCourse");
 
         setStudents(student_res.data.students);
         setTeachers(teacher_res.data.teachers);
@@ -38,7 +32,7 @@ const Dashboard = () => {
       }
     };
     fetch_Students_Teachers_Courses();
-  });
+  }, []);
 
   return (
     <div className="flex min-h-screen bg-slate-300">
@@ -120,7 +114,6 @@ const Dashboard = () => {
                       Students
                     </h2>
                   </div>
-                 
                 </div>
 
                 <div
@@ -132,7 +125,6 @@ const Dashboard = () => {
                       Teachers
                     </h2>
                   </div>
-                 
                 </div>
 
                 <div
@@ -144,7 +136,6 @@ const Dashboard = () => {
                       Courses
                     </h2>
                   </div>
-                 
                 </div>
               </div>
             </div>

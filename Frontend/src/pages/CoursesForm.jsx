@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../component/Sidebar";
 import Header from "../component/Header";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../api/api.js";
 import { IoArrowBack } from "react-icons/io5";
 
 const CoursesForm = () => {
@@ -41,7 +41,7 @@ const CoursesForm = () => {
     const fetchCourse = async () => {
       try {
         setLoadingData(true);
-        const course_res = await axios.get(
+        const course_res = await api.get(
           `http://localhost:5000/api/courses/getCourse/${id}`,
         );
         console.log(course_res);
@@ -61,10 +61,7 @@ const CoursesForm = () => {
 
     try {
       if (isEditMode) {
-        const res = await axios.put(
-          `http://localhost:5000/api/courses/update/${id}`,
-          formdata,
-        );
+        const res = await api.put(`/courses/update/${id}`, formdata);
         if (res.status === 200) {
           alert("Course updated successfully!");
           nav("/Courses");
@@ -72,10 +69,7 @@ const CoursesForm = () => {
           alert("Failed to update course");
         }
       } else {
-        const res = await axios.post(
-          `http://localhost:5000/api/courses/createCourse`,
-          formdata,
-        );
+        const res = await api.post(`/courses/createCourse`, formdata);
         if (res.data.success) {
           alert("Course added successfully!");
           ResetForm();

@@ -5,7 +5,7 @@ import Sidebar from "../component/Sidebar";
 import Header from "../component/Header";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import axios from "axios";
+import api from "../api/api.js";
 import { useEffect } from "react";
 import { IoEye } from "react-icons/io5";
 
@@ -21,12 +21,10 @@ const Student = () => {
   const fetchStudent = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `http://localhost:5000/api/students/getStudent`,
-        {
-          params: { page, limit: 2 },
-        },
-      );
+      const res = await api.get(`/students/getStudent`, {
+        params: { page, limit: 2 },
+        withCredentials: true,
+      });
       setTotalpage(res.data.totalpages);
       setStudents(res.data.students);
       setLoading(false);
@@ -46,9 +44,7 @@ const Student = () => {
     );
     if (!confirmed) return;
     try {
-      const res = await axios.delete(
-        `http://localhost:5000/api/students/delete/${id}`,
-      );
+      const res = await api.delete(`/students/delete/${id}`);
       if (res.status === 200) {
         alert("Student deleted successfully");
         setStudents((prev) => prev.filter((s) => s._id !== id));

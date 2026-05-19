@@ -6,8 +6,7 @@ import Header from "../component/Header";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoBookSharp } from "react-icons/io5";
-import axios from "axios";
-
+import api from "../api/api.js";
 const Courses = () => {
   const nav = useNavigate();
   const [isOpen, setIsOpen] = useState(true);
@@ -21,15 +20,12 @@ const Courses = () => {
   const fetchCourse = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `http://localhost:5000/api/courses/getCourse`,
-        {
-          params: {
-            page,
-            limit: 2,
-          },
+      const res = await api.get(`/courses/getCourse`, {
+        params: {
+          page,
+          limit: 2,
         },
-      );
+      });
       setTotalpage(res.data.totalpages);
       setCourses(res.data.courses);
       setLoading(false);
@@ -42,9 +38,7 @@ const Courses = () => {
     const confirm = window.confirm("Are you sure want to delete this course?");
     if (!confirm) return;
     try {
-      const res = await axios.delete(
-        `http://localhost:5000/api/courses/delete/${id}`,
-      );
+      const res = await api.delete(`/courses/delete/${id}`);
       if (res.status === 200) {
         alert("Course deleted successfully");
         setCourses((prev) => prev.filter((c) => c._id !== id));

@@ -17,6 +17,16 @@ app.use(cookieParser())
 app.use(cors({ origin: "http://localhost:5173",credentials:true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.use("/", (req,res,next)=>
+// {
+//   console.log("this is middleware")
+//   next()
+// }
+// )
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).send('Something broke!');
+// });
 
 app.use("/api/students",studentRoutes);
 app.use("/api/teachers",teacherRoutes);

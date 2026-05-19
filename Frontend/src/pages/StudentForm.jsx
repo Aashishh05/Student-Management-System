@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Sidebar from "../component/Sidebar";
 import Header from "../component/Header";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../api/api.js";
 import { useEffect } from "react";
 import { IoArrowBack } from "react-icons/io5";
 
@@ -53,12 +53,8 @@ const StudentForm = () => {
     const fetch_Students_Courses = async () => {
       setLodaing(true);
       try {
-        const teacher_res = await axios.get(
-          "http://localhost:5000/api/teachers/getTeacher",
-        );
-        const course_res = await axios.get(
-          "http://localhost:5000/api/courses/getCourse",
-        );
+        const teacher_res = await api.get("/teachers/getTeacher");
+        const course_res = await api.get("/courses/getCourse");
 
         setTeachers(teacher_res.data.teachers);
         setCourses(course_res.data.courses);
@@ -75,9 +71,7 @@ const StudentForm = () => {
     const fetchStudent = async () => {
       setLoadingData(true);
       try {
-        const student_res = await axios.get(
-          `http://localhost:5000/api/students/getStudent/${id}`,
-        );
+        const student_res = await api.get(`/students/getStudent/${id}`);
         setFormdata(student_res.data.student);
       } catch (error) {
         console.log("Error fetching student", error);
@@ -113,20 +107,14 @@ const StudentForm = () => {
 
     try {
       if (isEditMode) {
-        const res = await axios.put(
-          `http://localhost:5000/api/students/update/${id}`,
-          formdata,
-        );
+        const res = await api.put(`/students/update/${id}`, formdata);
         if (res.status === 200) {
           alert("Student updated successfully!");
         } else {
           alert("Failed to update student");
         }
       } else {
-        const res = await axios.post(
-          `http://localhost:5000/api/students/createStudent`,
-          formdata,
-        );
+        const res = await api.post(`/students/createStudent`, formdata);
         if (res.data.success) {
           alert("Student added successfully");
           ResetForm();

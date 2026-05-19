@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../component/Sidebar";
 import Header from "../component/Header";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../api/api.js";
 import { IoArrowBack } from "react-icons/io5";
 
 const TeacherForm = () => {
@@ -45,9 +45,7 @@ const TeacherForm = () => {
     const fetchTeacher = async () => {
       try {
         setLoadingData(true);
-        const teacher_res = await axios.get(
-          `http://localhost:5000/api/teachers/getTeacher/${id}`,
-        );
+        const teacher_res = await api.get(`/teachers/getTeacher/${id}`);
         setFormdata(teacher_res.data.teacher);
       } catch (error) {
         console.log("Error fetching teachers", error);
@@ -79,10 +77,7 @@ const TeacherForm = () => {
 
     try {
       if (isEditMode) {
-        const res = await axios.put(
-          `http://localhost:5000/api/teachers/update/${id}`,
-          formdata,
-        );
+        const res = await api.put(`/teachers/update/${id}`, formdata);
         if (res.status === 200) {
           alert("Teacher updated successfully");
           nav(`/Teacher`);
@@ -90,10 +85,7 @@ const TeacherForm = () => {
           alert("Failed to update teacher");
         }
       } else {
-        const res = await axios.post(
-          `http://localhost:5000/api/teachers/createTeacher`,
-          formdata,
-        );
+        const res = await api.post(`/teachers/createTeacher`, formdata);
         if (res.data.success) {
           alert("Teacher added successfully!");
           ResetForm();

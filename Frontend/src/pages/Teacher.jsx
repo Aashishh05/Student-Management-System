@@ -6,7 +6,7 @@ import Header from "../component/Header";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaUserTie } from "react-icons/fa";
-import axios from "axios";
+import api from "../api/api.js";
 import { IoEye } from "react-icons/io5";
 
 const Teacher = () => {
@@ -22,12 +22,9 @@ const Teacher = () => {
   const fetchTeacher = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `http://localhost:5000/api/teachers/getTeacher`,
-        {
-          params: { page, limit: 2 },
-        },
-      );
+      const res = await api.get(`/teachers/getTeacher`, {
+        params: { page, limit: 2 },
+      });
       setTotalpage(res.data.totalpages);
       setTeachers(res.data.teachers);
       setLoading(false);
@@ -43,9 +40,7 @@ const Teacher = () => {
     );
     if (!confirmed) return;
     try {
-      const res = await axios.delete(
-        `http://localhost:5000/api/teachers/delete/${id}`,
-      );
+      const res = await api.delete(`/teachers/delete/${id}`);
       if (res.status === 200) {
         alert("Teacher deleted successfully!");
         setTeachers((prev) => prev.filter((t) => t._id !== id));

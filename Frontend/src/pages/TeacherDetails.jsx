@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api/api.js";
 import { useParams, useNavigate } from "react-router-dom";
 import Sidebar from "../component/Sidebar";
 import Header from "../component/Header";
@@ -15,9 +15,7 @@ const TeacherDetails = () => {
   const fetchTeacher = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `http://localhost:5000/api/teachers/getTeacher/${id}`,
-      );
+      const res = await api.get(`/teachers/getTeacher/${id}`);
       console.log(res.data);
       setTeacher(res.data.teacher);
       setLoading(false);

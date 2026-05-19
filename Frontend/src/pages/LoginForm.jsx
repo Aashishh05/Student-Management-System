@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../api/api.js";
 import React, { useState } from "react";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
@@ -26,15 +26,13 @@ const LoginForm = () => {
 
     setLoading(true);
     try {
-      const res = await axios.post(
-        `http://localhost:5000/api/users/login`,
-        formData,
-        { withCredentials: true },
-      );
+      const res = await api.post(`/users/login`, formData, {
+        withCredentials: true,
+      });
       console.log("Login successful");
       setLogin(res.data.user);
 
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      // localStorage.setItem("user", JSON.stringify(res.data.user));
 
       nav("/Dashboard");
     } catch (error) {
