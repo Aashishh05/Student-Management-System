@@ -12,28 +12,31 @@ import StudentDetails from "./pages/StudentDetails";
 import TeacherDetails from "./pages/TeacherDetails";
 import LoginForm from "./pages/LoginForm";
 import RegisterForm from "./pages/RegisterForm";
+import ProtectedRoutes from "./component/ProtectedRoutes";
+
 const App = () => {
   return (
     <div>
       <Routes>
-
-        <Route  element={<MainLayout />} />
-        <Route path="/" element={<LoginForm />} />
-
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/StudentForm" element={<StudentForm />} />
-        <Route path="/TeacherForm" element={<TeacherForm />} />
-        <Route path="/CoursesForm" element={<CoursesForm />} />
-        <Route path="/Dashboard" element={<Dashboard />} />
-        <Route path="/Student" element={<Student />} />
-        <Route path="/Teacher" element={<Teacher />} />
-        <Route path="/Courses" element={<Courses />} />
-        <Route path="/StudentForm/:id" element={<StudentForm />} />
-        <Route path="/TeacherForm/:id" element={<TeacherForm />} />
-        <Route path="/CoursesForm/:id" element={<CoursesForm />} />
-        <Route path="/StudentDetails/:id" element={<StudentDetails />} />
-        <Route path="/TeacherDetails/:id" element={<TeacherDetails />} />
+        <Route path="/" element={<LoginForm />} />{" "}
         <Route path="/RegisterForm" element={<RegisterForm />} />
+        <Route element={<ProtectedRoutes />}>
+          <Route element={<MainLayout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/StudentForm" element={<StudentForm />} />
+            <Route path="/TeacherForm" element={<TeacherForm />} />
+            <Route path="/CoursesForm" element={<CoursesForm />} />
+            <Route path="/Dashboard" element={<Dashboard />} />
+            <Route path="/Student" element={<Student />} />
+            <Route path="/Teacher" element={<Teacher />} />
+            <Route path="/Courses" element={<Courses />} />
+            <Route path="/StudentForm/:id" element={<StudentForm />} />
+            <Route path="/TeacherForm/:id" element={<TeacherForm />} />
+            <Route path="/CoursesForm/:id" element={<CoursesForm />} />
+            <Route path="/StudentDetails/:id" element={<StudentDetails />} />
+            <Route path="/TeacherDetails/:id" element={<TeacherDetails />} />
+          </Route>
+        </Route>
       </Routes>
     </div>
   );

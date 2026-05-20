@@ -19,7 +19,7 @@ const Header = ({ toggleSidebar }) => {
         { withCredentials: true },
       );
       localStorage.removeItem("token");
-      nav(`/LoginForm`);
+      nav(`/`);
     } catch (error) {
       console.log("Logout Error!", error);
     } finally {

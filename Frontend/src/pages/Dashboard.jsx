@@ -37,16 +37,9 @@ const Dashboard = () => {
 
   return (
     <div className="flex min-h-screen bg-slate-300">
-      <div
-        className={`${
-          isOpen ? "w-80" : "w-0"
-        } transition-all duration-300 ease-in-out shrink-0 overflow-hidden md:relative absolute z-50 h-full`}
-      >
-        <Sidebar isOpen={isOpen} />
-      </div>
+  
 
       <div className="flex-1 flex flex-col min-w-0">
-        <Header toggleSidebar={() => setIsOpen(!isOpen)} />
 
         <main className="p-4 md:p-3 mt-10">
           <div className="px-2 md:px-10 lg:px-20">

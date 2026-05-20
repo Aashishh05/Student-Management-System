@@ -109,19 +109,12 @@ const TeacherForm = () => {
 
   return (
     <div className="flex min-h-screen bg-slate-300 overflow-x-hidden">
-      <div
-        className={`${
-          isOpen ? "w-80" : "w-0"
-        } transition-all duration-300 ease-in-out shrink-0 overflow-hidden md:relative absolute z-50 h-full`}
-      >
-        <Sidebar isOpen={isOpen} />
-      </div>
+   
 
       <div
         className="flex-1 flex flex-col min-w-0"
         style={{ scrollbarGutter: "stable" }}
       >
-        <Header toggleSidebar={() => setIsOpen(!isOpen)} />
 
         <main className="flex-1 flex items-center justify-center p-6">
           <div

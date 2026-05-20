@@ -28,7 +28,11 @@ const LoginForm = () => {
     try {
       const res = await api.post("/users/login", formData);
       console.log("Login successful");
+
+      //  console.log(res.data.token)
       setLogin(res.data.user);
+
+      localStorage.setItem("token", res.data.token);
       nav("/dashboard");
     } catch (error) {
       console.log("Login error!", error.message);

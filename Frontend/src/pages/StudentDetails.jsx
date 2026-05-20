@@ -37,16 +37,9 @@ const StudentDetails = () => {
 
   return (
     <div className="flex h-screen overflow-hidden bg-slate-300">
-      <div
-        className={`${
-          isOpen ? "w-80" : "w-0"
-        } transition-all duration-300 ease-in-out shrink-0 overflow-hidden md:relative absolute z-50 h-full`}
-      >
-        <Sidebar isOpen={isOpen} />
-      </div>
+  
 
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <Header toggleSidebar={() => setIsOpen(!isOpen)} />
 
         <main className="flex-1 overflow-y-auto p-4 md:p-10">
           <div className="px-1 md:px-6 lg:px-10">
