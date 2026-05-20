@@ -29,9 +29,6 @@ const LoginForm = () => {
       const res = await api.post("/users/login", formData);
       console.log("Login successful");
       setLogin(res.data.user);
-
-      // localStorage.setItem("user", JSON.stringify(res.data.user));
-
       nav("/dashboard");
     } catch (error) {
       console.log("Login error!", error.message);

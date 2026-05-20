@@ -22,7 +22,7 @@ const Sidebar = ({ isOpen }) => {
       <div
         className="group p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50 shadow-lg mb-6 cursor-pointer shrink-0 
         transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 active:scale-95"
-        onClick={() => nav(`/`)}
+        onClick={() => nav(`/dashboard`)}
       >
         <div className="flex items-center gap-3">
           <FaRegUserCircle className="text-blue-400 text-2xl transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110" />
@@ -35,7 +35,7 @@ const Sidebar = ({ isOpen }) => {
       <div className="space-y-3 shrink-0">
         <div
           className="group relative p-4 bg-white/70 backdrop-blur-sm rounded-2xl border border-white/60 shadow-sm hover:shadow-xl hover:shadow-emerald-500/20 hover:border-emerald-200/50 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 transition-all duration-300 cursor-pointer overflow-hidden whitespace-nowrap"
-          onClick={() => nav(`/Dashboard`)}
+          onClick={() => nav(`/dashboard`)}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/10 to-teal-400/10 opacity-0 group-hover:opacity-100 blur-sm transition-all duration-500 rounded-2xl -z-10" />
           <div className="flex items-center space-x-4">
