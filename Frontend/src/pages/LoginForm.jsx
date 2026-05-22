@@ -3,11 +3,14 @@ import React, { useState } from "react";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import { loginSuccess } from "../redux/slice.js";
+import { useDispatch } from "react-redux";
 
 const LoginForm = () => {
   const nav = useNavigate();
   const [login, setLogin] = useState("");
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -29,8 +32,8 @@ const LoginForm = () => {
       const res = await api.post("/users/login", formData);
       console.log("Login successful");
 
-      //  console.log(res.data.token)
       setLogin(res.data.user);
+      dispatch(loginSuccess(res.data.user));
 
       localStorage.setItem("token", res.data.token);
       nav("/dashboard");

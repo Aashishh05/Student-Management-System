@@ -3,12 +3,15 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { IoMenuSharp, IoSearch } from "react-icons/io5";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { logout } from "../redux/slice";
 
 const Header = ({ toggleSidebar }) => {
   const nav = useNavigate();
   const [dropdown, setDropdown] = useState(false);
 
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleLogout = async () => {
     setLoading(true);
@@ -19,6 +22,7 @@ const Header = ({ toggleSidebar }) => {
         { withCredentials: true },
       );
       localStorage.removeItem("token");
+      dispatch(logout());
       nav(`/`);
     } catch (error) {
       console.log("Logout Error!", error);
@@ -75,8 +79,9 @@ const Header = ({ toggleSidebar }) => {
 
           {dropdown && (
             <div className="absolute right-0 mt-3 w-40 bg-white/90 backdrop-blur-md border border-white/50 rounded-2xl shadow-xl p-3 animate-in fade-in zoom-in duration-200">
-              <button className="w-full text-left px-4 py-2 text-slate-700 hover:bg-indigo-500 hover:text-indigo-100 rounded-xl transition-all"
-              onClick={handleLogout}
+              <button
+                className="w-full text-left px-4 py-2 text-slate-700 hover:bg-indigo-500 hover:text-indigo-100 rounded-xl transition-all"
+                onClick={handleLogout}
               >
                 Logout
               </button>
