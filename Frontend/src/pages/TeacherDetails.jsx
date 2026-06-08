@@ -37,7 +37,7 @@ const TeacherDetails = () => {
     );
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-300">
+    <div className="flex min-h-screen bg-slate-300">
     
 
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
@@ -92,7 +92,7 @@ const TeacherDetails = () => {
                     <img
                       src={
                         teacher.photo ||
-                        "https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
+                        `http://localhost:5000/uploads/${teacher.image}`
                       }
                       alt="student"
                       className="w-32 h-32 rounded-full object-cover border-4 border-slate-200 shadow-md"

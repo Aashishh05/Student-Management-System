@@ -13,9 +13,12 @@ const validationSchema = Yup.object({
   first_name: Yup.string().required("First name is required"),
   last_name: Yup.string().required("Last name is required"),
   gender: Yup.string().required("Gender is required"),
-  phone: Yup.string()
-    .matches(/^\d{10}$/, "Please enter a valid 10-digit phone number")
-    .required("Phone is required"),
+  Phone_Number: Yup.string()
+    .required("Phone number is required")
+    .matches(
+      /^(97|98)\d{8}$/,
+      "Phone number must start with 97 or 98 and be 10 digits",
+    ),
   email: Yup.string()
     .email("Please enter a valid email")
     .required("Email is required"),
@@ -114,7 +117,6 @@ const StudentForm = () => {
       if (values.image) {
         formdata.append("image", values.image);
       }
-
 
       if (isEditMode) {
         const res = await api.put(`/students/update/${id}`, formdata, {
