@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { FaImage } from "react-icons/fa";
 
 const validationSchema = Yup.object({
   first_name: Yup.string().required("First name is required"),
@@ -41,8 +42,9 @@ const StudentForm = () => {
     course: "",
     teacher: "",
     payment_status: "",
+    image: null,
+    existingImage: null,
   });
-
   const [courses, setCourses] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -70,7 +72,21 @@ const StudentForm = () => {
       setLoadingData(true);
       try {
         const student_res = await api.get(`/students/getStudent/${id}`);
-        setInitialValues(student_res.data.student);
+        const studentData = student_res.data.student;
+
+        setInitialValues({
+          first_name: studentData.first_name || "",
+          last_name: studentData.last_name || "",
+          gender: studentData.gender || "",
+          phone: studentData.phone || "",
+          email: studentData.email || "",
+          address: studentData.address || "",
+          course: studentData.course || "",
+          teacher: studentData.teacher || "",
+          payment_status: studentData.payment_status || "",
+          image: null,
+          existingImage: studentData.image || null,
+        });
       } catch (error) {
         console.log("Error fetching student", error);
         alert("Failed to load student data");
@@ -83,15 +99,36 @@ const StudentForm = () => {
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
+      const formdata = new FormData();
+
+      formdata.append("first_name", values.first_name);
+      formdata.append("last_name", values.last_name);
+      formdata.append("gender", values.gender);
+      formdata.append("phone", values.phone);
+      formdata.append("email", values.email);
+      formdata.append("address", values.address);
+      formdata.append("course", values.course);
+      formdata.append("teacher", values.teacher);
+      formdata.append("payment_status", values.payment_status);
+
+      if (values.image) {
+        formdata.append("image", values.image);
+      }
+
+
       if (isEditMode) {
-        const res = await api.put(`/students/update/${id}`, values);
+        const res = await api.put(`/students/update/${id}`, formdata, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
         if (res.status === 200) {
           alert("Student updated successfully!");
         } else {
           alert("Failed to update student");
         }
       } else {
-        const res = await api.post(`/students/createStudent`, values);
+        const res = await api.post(`/students/createStudent`, formdata, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
         if (res.data.success) {
           alert("Student added successfully");
           resetForm();
@@ -101,17 +138,18 @@ const StudentForm = () => {
       }
       nav("/Student");
     } catch (error) {
+      console.log(error.response?.data);
       console.log(error);
       alert("Something went wrong");
     }
   };
-
-  if (loadingData)
+  if (loadingData) {
     return (
       <div className="flex justify-center items-center h-screen">
-        Loading...
+        Loading student...
       </div>
     );
+  }
 
   return (
     <div className="flex min-h-screen bg-slate-300 overflow-x-hidden">
@@ -154,7 +192,7 @@ const StudentForm = () => {
               onSubmit={handleSubmit}
               enableReinitialize
             >
-              {({ resetForm }) => (
+              {({ resetForm, values, setFieldValue }) => (
                 <Form className="space-y-5">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
@@ -354,7 +392,33 @@ const StudentForm = () => {
                     />
                   </div>
 
-                  
+                  <div>
+                    <label className="font-semibold">Upload Image</label>
+
+                    <div className="border-dashed border-2 p-5 text-center rounded">
+                      <FaImage className="text-4xl mx-auto text-gray-400" />
+
+                      <input
+                        type="file"
+                        onChange={(e) =>
+                          setFieldValue("image", e.target.files[0])
+                        }
+                        className="mt-3"
+                      />
+
+                      {!values.image && !!initialValues.existingImage && (
+                        <div className="mt-4">
+                          <p className="text-sm text-gray-500">
+                            Current Image:
+                          </p>
+                          <img
+                            src={`http://localhost:5000/uploads/${initialValues.existingImage}`}
+                            className="w-32 h-32 object-cover rounded"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
 
                   <div className="flex justify-end gap-3 pt-4">
                     <button

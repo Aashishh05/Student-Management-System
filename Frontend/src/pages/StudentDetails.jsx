@@ -37,10 +37,7 @@ const StudentDetails = () => {
 
   return (
     <div className="flex h-screen overflow-hidden bg-slate-300">
-  
-
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-
         <main className="flex-1 overflow-y-auto p-4 md:p-10">
           <div className="px-1 md:px-6 lg:px-10">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-8 md:p-10 rounded-2xl bg-slate-200 shadow-2xl border-l-[12px] border-b-[6px] border-[#2249A3] gap-6">
@@ -89,11 +86,8 @@ const StudentDetails = () => {
                 <div className="flex flex-col sm:flex-row gap-6 pb-6 border-b border-slate-200">
                   <div className="flex-shrink-0 flex justify-center">
                     <img
-                      src={
-                        student.photo ||
-                        "https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
-                      }
-                      alt="student"
+                      src={`http://localhost:5000/uploads/${student.image}`}
+                      alt="student image"
                       className="w-32 h-32 rounded-full object-cover border-4 border-slate-200 shadow-md"
                     />
                   </div>

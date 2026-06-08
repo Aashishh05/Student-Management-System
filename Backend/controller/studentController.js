@@ -2,7 +2,13 @@ import Student from "../model/studentmodel.js";
 
 export const createStudent = async (req, res) => {
   try {
-    const student = await Student.create(req.body);
+    const data = {
+      ...req.body,
+      image: req.file ? req.file.filename : null,
+    };
+
+    const student = await Student.create(data);
+
     res.status(201).json({
       success: true,
       message: "Student Created Successfully",
@@ -58,14 +64,25 @@ export const getStudentByID = async (req, res) => {
 
 export const updateStudentByID = async (req, res) => {
   const { id } = req.params;
+
   try {
-    const updateStudent = await Student.findByIdAndUpdate(id, req.body, {
+    const data = {
+      ...req.body,
+    };
+
+    if (req.file) {
+      data.image = req.file.filename;
+    }
+
+    const updateStudent = await Student.findByIdAndUpdate(id, data, {
       new: true,
       runValidators: true,
     });
+
     if (!updateStudent) {
       return res.status(404).json({ error: "Student not found" });
     }
+
     res.status(200).json({
       success: true,
       message: "Student updated successfully",
