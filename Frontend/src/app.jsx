@@ -10,16 +10,16 @@ import Teacher from "./pages/Teacher";
 import Courses from "./pages/Courses";
 import StudentDetails from "./pages/StudentDetails";
 import TeacherDetails from "./pages/TeacherDetails";
-import LoginForm from "./pages/LoginForm";
-import RegisterForm from "./pages/RegisterForm";
 import ProtectedRoutes from "./component/ProtectedRoutes";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 const App = () => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<LoginForm />} />{" "}
-        <Route path="/RegisterForm" element={<RegisterForm />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/Register" element={<Register />} />
         <Route element={<ProtectedRoutes />}>
           <Route element={<MainLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />

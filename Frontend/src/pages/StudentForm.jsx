@@ -13,7 +13,7 @@ const validationSchema = Yup.object({
   first_name: Yup.string().required("First name is required"),
   last_name: Yup.string().required("Last name is required"),
   gender: Yup.string().required("Gender is required"),
-  Phone_Number: Yup.string()
+  phone: Yup.string()
     .required("Phone number is required")
     .matches(
       /^(97|98)\d{8}$/,

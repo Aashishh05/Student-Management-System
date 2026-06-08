@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Header from "./Header";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import LoginForm from "../pages/LoginForm";
 
 const MainLayout = () => {
   const [isOpen, setIsOpen] = useState(true);
