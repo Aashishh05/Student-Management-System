@@ -22,7 +22,9 @@ const Login= () => {
     setLoading(true);
 
     try {
+      console.log("hello users")
       const res = await api.post("/users/login", values);
+      console.log("hello users")
 
       console.log("Login successful");
 

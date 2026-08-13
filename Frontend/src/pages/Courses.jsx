@@ -23,7 +23,7 @@ const Courses = () => {
       const res = await api.get(`/courses/getCourse`, {
         params: {
           page,
-          limit: 2,
+          limit: 3,
         },
       });
       setTotalpage(res.data.totalpages);
@@ -69,11 +69,7 @@ const Courses = () => {
 
   return (
     <div className="flex h-screen overflow-hidden bg-slate-300">
-   
-
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-       
-
         <main className="flex-1 overflow-y-auto p-4 md:p-10 space-y-6 md:space-y-10">
           <div className="px-1 md:px-6 lg:px-10">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-8 md:p-10 rounded-2xl bg-slate-200 shadow-2xl border-l-[12px] border-b-[6px] border-[#2249A3] gap-6">

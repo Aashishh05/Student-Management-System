@@ -22,7 +22,7 @@ const Student = () => {
     try {
       setLoading(true);
       const res = await api.get(`/students/getStudent`, {
-        params: { page, limit: 2 },
+        params: { page, limit: 3},
         withCredentials: true,
       });
       setTotalpage(res.data.totalpages);

@@ -23,7 +23,7 @@ const Teacher = () => {
     try {
       setLoading(true);
       const res = await api.get(`/teachers/getTeacher`, {
-        params: { page, limit: 2 },
+        params: { page, limit: 3 },
       });
       setTotalpage(res.data.totalpages);
       setTeachers(res.data.teachers);
@@ -65,11 +65,9 @@ const Teacher = () => {
   return (
     <div className="flex h-screen overflow-hidden bg-slate-300">
       {/* Sidebar — locked, never scrolls */}
-     
 
       {/* Right side */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-
         {/* Only this scrolls */}
         <main className="flex-1 overflow-y-auto p-4 md:p-10 space-y-6 md:space-y-10">
           <div className="px-1 md:px-6 lg:px-10">
